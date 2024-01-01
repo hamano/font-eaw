@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "font-eaw"
+version = "0.0.1"
+description = ""
+authors = ["HAMANO Tsukasa"]
+readme = "README.md"
+packages = [{include = "font_eaw"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pillow = "^10.4.0"
+pytest = "^8.3.2"
+fonttools = "^4.53.1"
+doit = "^0.36.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+build = "make"
+
+[tool.pytest.ini_options]
+pythonpath = "."
