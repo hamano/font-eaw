@@ -1,11 +1,10 @@
 import fontforge
-import json
 
-def load_width_from_json(path):
-    width_map = {}
-    with open(path, 'r') as f:
-        width_list = json.load(f)
-        return width_list
+# def load_width_from_json(path):
+#     width_map = {}
+#     with open(path, 'r') as f:
+#         width_list = json.load(f)
+#         return width_list
 
 def load_locale(path):
     width_list = []
@@ -72,11 +71,6 @@ def stats_font(font_file):
             stats[t] += 1
         else:
             stats[t] = 1
-        c = None
-        try:
-            c = chr(g.unicode)
-        except ValueError:
-            pass
     ret = []
     for name in sorted(stats.keys()):
         ret.append((name, stats[name]))
