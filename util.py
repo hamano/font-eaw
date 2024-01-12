@@ -1,4 +1,5 @@
 import fontforge
+from collections import defaultdict
 
 # def load_width_from_json(path):
 #     width_map = {}
@@ -59,19 +60,21 @@ def check_width(width_file, font_file):
             error += 1
     return error
 
+
 def stats_font(font_file):
-    stats = {}
+    stats = defaultdict(int)
+    width_stats = defaultdict(int)
     font = fontforge.open(font_file)
     for g in font.glyphs():
         if g.unicode < 0x20:
             continue
         tokens = g.glyphname.split('-')
-        t = tokens[0]
-        if t in stats:
-            stats[t] += 1
-        else:
-            stats[t] = 1
+        fontname = tokens[0]
+        stats[fontname] += 1
+        width_stats[g.width] += 1
     ret = []
+    for width in sorted(width_stats.keys()):
+        ret.append((width, width_stats[width]))
     for name in sorted(stats.keys()):
         ret.append((name, stats[name]))
     ret.append(('total', sum(stats.values())))
