@@ -616,3 +616,10 @@ def task_build_ttc():
             'clean': True,
             'verbosity': 2,
         }
+
+def task_all():
+    """全てを生成"""
+    return {
+        'actions': None,
+        'task_dep': ['build_ttc', 'stats']
+    }
