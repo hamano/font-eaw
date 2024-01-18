@@ -1,4 +1,5 @@
 import fontforge
+from functools import cache
 from collections import defaultdict
 
 # def load_width_from_json(path):
@@ -7,6 +8,8 @@ from collections import defaultdict
 #         width_list = json.load(f)
 #         return width_list
 
+
+@cache
 def load_locale(path):
     width_list = []
     with open(path, 'rt', encoding='utf-8') as f:
