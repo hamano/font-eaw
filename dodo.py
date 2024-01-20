@@ -59,6 +59,7 @@ def towide(font, wwid_mapping, code):
 
 def iosevka_subset(font_files, flavor, style, task):
     font = TTFont(font_files[0])
+    cmap = font.getBestCmap()
     update_cmap(font, ord('*'), 'asterisk.VSAB-3')
     update_cmap(font, ord('%'), 'percent.VSAO-3')
     update_cmap(font, ord('0'), 'zero.cv10-4')
@@ -67,45 +68,28 @@ def iosevka_subset(font_files, flavor, style, task):
     update_cmap(font, ord('l'), 'l.cv47-4')
     update_cmap(font, ord('Z'), 'Z.cv35-2')
 
-    wide_list = expand_list([
-        'U+27B0', # ➰
-        'U+27BF', # ➿
-        'U+274C', # ❌
-        'U+2B1B..U+2B1C', # ⬛⬜
-        'U+2B50', # ⭐
-    ])
-    if flavor == 'CONSOLE':
-        # Wideに変更するコードポイント
-        wide_list.extend(expand_list([
-            "U+2030..U+2031", # ‰‱
-            "U+203B", # ※
-            "U+214F", # ⅏
-            "U+2190..U+21FF", # 矢印
-            'U+231A..U+231B', # ⌚⌛
-            'U+23E9..U+23EC', #⏩⏪⏫⏬
-            'U+23F0', # ⏰
-            'U+23F3', # ⏳
-            "U+2460..U+24FF",
-            "U+25A0..U+25FF",
-            "U+2600..U+26FF",
-            "U+2776..U+2793",
-            "U+3251..U+32BF",
-            "U+1F000..U+1FAF8",
-        ]))
-    elif flavor == 'FULLWIDTH':
-        wide_list.extend(load_amb_list())
-        wide_list.extend(expand_list([
-            'U+3251..U+32BF', # ㉑〜㊿
-        ]))
-
+    # ワイド幅を持つグリフのマッピング
     wwid_mapping = get_wwid_mapping(font)
+
+    # ロケールファイルに基づいてグリフ幅を修正
+    wide_list = []
+    if flavor == 'CONSOLE':
+        locale = util.load_console_locale()
+        for code in cmap.keys():
+            if util.wcwidth(locale, code) == 2:
+                wide_list.append(code)
+    elif flavor == 'FULLWIDTH':
+        locale = util.load_fullwidth_locale()
+        for code in cmap.keys():
+            if util.wcwidth(locale, code) == 2:
+                wide_list.append(code)
+
     for code in wide_list:
         towide(font, wwid_mapping, code)
 
     options = Options()
     options.no_subset_tables.append('FFTM')
     subsetter = Subsetter(options=options)
-    cmap = font.getBestCmap()
     unicodes = set(cmap.keys())
 
     # 削除するグリフ
