@@ -10,6 +10,15 @@ from collections import defaultdict
 
 
 @cache
+def load_console_locale():
+    return load_locale('locale/UTF-8-EAW-CONSOLE')
+
+
+@cache
+def load_fullwidth_locale():
+    return load_locale('locale/UTF-8-EAW-FULLWIDTH')
+
+
 def load_locale(path):
     width_list = []
     with open(path, 'rt', encoding='utf-8') as f:
