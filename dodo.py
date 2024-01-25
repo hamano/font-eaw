@@ -57,6 +57,7 @@ def towide(font, wwid_mapping, code):
     #print(f'towide U+{code:04X} {wide_name}')
     update_cmap(font, code, wide_name)
 
+
 def iosevka_subset(font_files, flavor, style, task):
     font = TTFont(font_files[0])
     cmap = font.getBestCmap()
@@ -115,7 +116,7 @@ def iosevka_subset(font_files, flavor, style, task):
             if code not in cmap:
                 continue
             name = cmap[code]
-            if  font['hmtx'][name][0] == 500:
+            if font['hmtx'][name][0] == 500:
                 remove_list.append(code)
         remove_list.extend(expand_list([
             # 'U+00A7..U+00A8', # §JPフォントを利用
@@ -125,7 +126,7 @@ def iosevka_subset(font_files, flavor, style, task):
             # 'U+00B6..U+00BA', # JPフォントを利用
             # 'U+00BC..U+00BF', # JPフォントを利用
             # 'U+00C6',
-            'U+1F16A..U+1F16C', # 🅪🅫🅬半角なので削除
+            'U+1F16A..U+1F16C', # 🅪🅫🅬絵文字領域で半角なので削除
         ]))
     for code in remove_list:
         unicodes.discard(code)
@@ -133,6 +134,7 @@ def iosevka_subset(font_files, flavor, style, task):
     subsetter.populate(unicodes=unicodes)
     subsetter.subset(font)
     font.save(task.targets[0])
+
 
 @cache
 def load_amb_list():
@@ -145,6 +147,7 @@ def load_amb_list():
         for i in range(start, end + 1):
             amb_list.append(i)
     return amb_list
+
 
 def task_iosevka_subset():
     """Iosevkaの各種スタイルを生成"""
@@ -175,6 +178,7 @@ def task_iosevka_subset():
                 'clean': True,
                 'verbosity': 2,
             }
+
 
 def iosevka_fixup(flavor, style, task):
     font_file = list(task.file_dep)[0]
@@ -274,6 +278,7 @@ def iosevka_fixup(flavor, style, task):
     font.generate(task.targets[0])
     font.close()
 
+
 def task_iosevka_fixup():
     """Iosevkaの調整"""
     flavors = ['CONSOLE', 'FULLWIDTH', 'HALFWIDTH']
@@ -288,6 +293,7 @@ def task_iosevka_fixup():
                 'clean': True,
                 'verbosity': 2,
             }
+
 
 def bizud_subset(task):
     font_file = list(task.file_dep)[0]
@@ -311,6 +317,7 @@ def bizud_subset(task):
     font.save(task.targets[0])
     font.close()
 
+
 def task_bizud_subset():
     """BIZUDのサブセット"""
     styles = ['Regular', 'Bold']
@@ -324,10 +331,10 @@ def task_bizud_subset():
             'verbosity': 2,
         }
 
+
 def bizud_fixup(style, task):
     font_file = list(task.file_dep)[0]
     font = fontforge.open(font_file)
-
 
     # dereference
     for glyph in font.glyphs():
@@ -350,6 +357,7 @@ def bizud_fixup(style, task):
     font.save(task.targets[0])
     font.close()
 
+
 def task_bizud_fixup():
     """BizUDの調整"""
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
@@ -367,6 +375,7 @@ def task_bizud_fixup():
             'verbosity': 2,
         }
 
+
 def nerdfont_subset(task):
     font_file = list(task.file_dep)[0]
     font = TTFont(font_file)
@@ -380,6 +389,7 @@ def nerdfont_subset(task):
     font.save(task.targets[0])
     font.close()
 
+
 def task_nerdfont_subset():
     """NerdFontのサブセット"""
     return {
@@ -390,7 +400,7 @@ def task_nerdfont_subset():
         'verbosity': 2,
     }
 
-# NerdFontの調整
+
 def nerdfont_fixup(task):
     font_file = list(task.file_dep)[0]
     font = fontforge.open(font_file)
@@ -399,6 +409,7 @@ def nerdfont_fixup(task):
         glyph.glyphname = f"nf-{glyph.glyphname}"
     font.save(task.targets[0])
     font.close()
+
 
 def task_nerdfont_fixup():
     """NerdFontの調整"""
@@ -409,6 +420,7 @@ def task_nerdfont_fixup():
         'clean': True,
         'verbosity': 2,
     }
+
 
 def notoemoji_subset(style, task):
     weights = {
@@ -434,6 +446,7 @@ def notoemoji_subset(style, task):
     del font_new['STAT']
     font_new.save(task.targets[0])
 
+
 def task_notoemoji_subset():
     """NotoEmojiのサブセットを生成"""
     styles = ['Regular', 'Bold']
@@ -447,7 +460,7 @@ def task_notoemoji_subset():
             'verbosity': 2,
         }
 
-# NotoEmojiの調整
+
 def notoemoji_fixup(task):
     font_file = list(task.file_dep)[0]
     font = fontforge.open(font_file)
@@ -480,6 +493,7 @@ def task_notoemoji_fixup():
             'clean': True,
             'verbosity': 2,
         }
+
 
 def merge_font(target, path, unicodes=None, overwrite=False):
     source = fontforge.open(path)
@@ -516,7 +530,8 @@ def merge_font(target, path, unicodes=None, overwrite=False):
 
     source.close()
 
-def build_ttf(flavor, style, font_list, task):
+
+def ttf(flavor, style, font_list, task):
     font = fontforge.font()
     font.familyname = f"EAW {flavor}"
     font.fontname = f"EAW{flavor}-{style}"
@@ -533,7 +548,8 @@ def build_ttf(flavor, style, font_list, task):
     font.generate(task.targets[0]) 
     font.close()
 
-def task_build_ttf():
+
+def task_ttf():
     """フォント生成"""
     flavors = ['CONSOLE', 'FULLWIDTH']
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
@@ -550,12 +566,13 @@ def task_build_ttf():
                 font_list.append('build/NE-Regular.ttf')
             yield {
                 'name': f'{flavor}-{style}',
-                'actions': [(build_ttf, [flavor, style, font_list])],
+                'actions': [(ttf, [flavor, style, font_list])],
                 'file_dep': font_list,
                 'targets': [f'build/EAW-{flavor}-{style}.ttf'],
                 'clean': True,
                 'verbosity': 2,
             }
+
 
 def stats(task):
     font_file = list(task.file_dep)[0]
@@ -563,6 +580,7 @@ def stats(task):
     with open(task.targets[0], 'w') as f:
         for k, v in stats:
             print(k, v, file=f)
+
 
 def task_stats():
     """統計ファイル生成"""
@@ -580,11 +598,13 @@ def task_stats():
                 'verbosity': 2,
             }
 
-def build_ttc(flavor, font_list, task):
+
+def ttc(flavor, font_list, task):
     fonts = [fontforge.open(font_file) for font_file in font_list]
     fonts[0].generateTtc(task.targets[0], fonts[1:], layer=1)
 
-def task_build_ttc():
+
+def task_ttc():
     """TTC生成"""
     flavors = ['CONSOLE', 'FULLWIDTH']
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
@@ -594,16 +614,17 @@ def task_build_ttc():
             font_list.append(f'build/EAW-{flavor}-{style}.ttf')
         yield {
             'name': f'{flavor}',
-            'actions': [(build_ttc, [flavor, font_list])],
+            'actions': [(ttc, [flavor, font_list])],
             'file_dep': font_list,
             'targets': [f'build/EAW-{flavor}.ttc'],
             'clean': True,
             'verbosity': 2,
         }
 
+
 def task_all():
     """全てを生成"""
     return {
         'actions': None,
-        'task_dep': ['build_ttc', 'stats']
+        'task_dep': ['ttc', 'stats']
     }
