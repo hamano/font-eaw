@@ -4,7 +4,9 @@
 TEMP_DIR=$(mktemp -d)
 
 function progress_ascii(){
+  ratio=$(printf '%03d' $(($1 * 100 / 20)))
   remain=$((20 - $1))
+  printf '%3d%%' $(($1 * 100 / 20))
   echo -ne '['
   for i in $(seq $1); do
     echo -ne '#'
@@ -18,6 +20,7 @@ function progress_ascii(){
 
 function progress_new(){
   remain=$((20 - $1))
+  printf '%3d%%' $(($1 * 100 / 20))
   if [[ $1 -eq 0 ]]; then
     echo -n ''
   else
