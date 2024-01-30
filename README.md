@@ -17,6 +17,14 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 
 [locale-eaw](https://github.com/hamano/locale-eaw)とこのフォントの組み合わせによって上記の問題を修正します。
 
+# 合成フォント
+
+このフォントは以下のフォントを合成しています。
+- Iosevka Curly
+- BIZ UDGothic
+- Nerd Fonts
+- Noto Emoji
+
 # 特徴
 
 - 視認性の高いプログラミング、ターミナル作業向けフォント
@@ -40,5 +48,11 @@ AmbiguousとNeutralの文字幅を個別に裁定
 
 とした修正ロケールに適合するフォントです。
 
+## EAW-FULLWIDTH
+East Asian Ambisious Width文字をすべて全角にしたフォント
+Ambisious Widthを全角に統一するなど、古典的なアプリケーションで利用できます。
+
 ### サンプル
+
+![EAW-CONSOLEのサンプル画像](./sample/sample.png)
 
