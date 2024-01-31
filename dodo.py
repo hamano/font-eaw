@@ -104,29 +104,28 @@ def iosevka_subset(font_files, flavor, style, task):
         'U+2B55', # ⭕EAW=Wなのに半角なので削除
         'U+E0A0..U+E0D7', # NFカバー範囲
         'U+EF01..U+EF10', # NFカバー範囲
+        'U+1F16A..U+1F16C', # 🅪🅫🅬絵文字領域で半角なので削除
     ])
     if flavor == 'CONSOLE':
         remove_list.extend(expand_list([
             'U+2690..U+2691', # ⚐⚑
-            'U+1F16A..U+1F16C', # 🅪🅫🅬半角なので削除
         ]))
     elif flavor == 'FULLWIDTH':
-        amb_list = load_amb_list()
-        for code in amb_list:
+        for code in wide_list:
             if code not in cmap:
                 continue
             name = cmap[code]
             if font['hmtx'][name][0] == 500:
+                print(f'{code:04X} missmatch ', chr(code))
                 remove_list.append(code)
         remove_list.extend(expand_list([
-            # 'U+00A7..U+00A8', # §JPフォントを利用
+            # 'U+00A7..U+00A8', # §¨ JPフォントを利用
             # 'U+00AA', # ªJPフォントを利用
             # 'U+00AD..U+00AE', # JPフォントを利用
             # 'U+00B0..U+00B4', # JPフォントを利用
             # 'U+00B6..U+00BA', # JPフォントを利用
             # 'U+00BC..U+00BF', # JPフォントを利用
             # 'U+00C6',
-            'U+1F16A..U+1F16C', # 🅪🅫🅬絵文字領域で半角なので削除
         ]))
     for code in remove_list:
         unicodes.discard(code)
@@ -134,19 +133,6 @@ def iosevka_subset(font_files, flavor, style, task):
     subsetter.populate(unicodes=unicodes)
     subsetter.subset(font)
     font.save(task.targets[0])
-
-
-@cache
-def load_amb_list():
-    amb_list = []
-    with open('./eaw-fullwidth.json', 'r') as f:
-        width_list = json.load(f)
-    for start, end, width in width_list:
-        if width != 2:
-            continue
-        for i in range(start, end + 1):
-            amb_list.append(i)
-    return amb_list
 
 
 def task_iosevka_subset():
@@ -210,8 +196,7 @@ def iosevka_fixup(flavor, style, task):
         'U+1D300..U+1D356', # MONOGRAM Unicode 16でWide
     ])
     if flavor == 'CONSOLE':
-            wide_list.extend(expand_list([
-                'U+25E6', # ◦
+        wide_list.extend(expand_list([
         ])) 
     elif flavor == 'FULLWIDTH':
         wide_list.extend(expand_list([
@@ -238,34 +223,29 @@ def iosevka_fixup(flavor, style, task):
     ])
     if flavor == 'CONSOLE':
         wide_move_list.extend(expand_list([   
-            # "U+25E6", # ◦
-            # "U+25CC", # ◌
-            # "U+263F..U+2642", #
-            # "U+26A1", # ⚡
-            # "U+26B2", # ⚲
+            "U+25E6", # ◦
         ]))
     elif flavor == 'FULLWIDTH':
         wide_move_list.extend(expand_list([
             'U+00A4', # ¤
-            # "U+02C7", # ˇ
-            # "U+02D0", # ː
-            # "U+02D8", # ˘
-            # "U+02D9", # ˙
-            # "U+02DA", # ˚
-            # "U+02DB", # ˛
-            # "U+02DD", # ˝
-            # "U+2013", # –
-            # "U+2022", # •
-            # "U+203E", # ‾
-            # "U+2074", # ⁴
-            # "U+20AC", # €
-            # "U+2113", # ℓ
-            # "U+2122", # ™
-            # "U+2153", # ⅓
-            # "U+2154", # ⅔
-            # "U+2295", # ⊕
-            # "U+26A1", # ⚡
+            "U+02D0", # ː
+            "U+02D8", # ˘
+            "U+02D9", # ˙
+            "U+02DA", # ˚
+            "U+02DB", # ˛
+            "U+02DD", # ˝
+            "U+2013", # –
+            "U+2022", # •
+            "U+203E", # ‾
+            "U+2074", # ⁴
+            "U+20AC", # €
+            "U+2113", # ℓ
+            "U+2122", # ™
+            "U+2153", # ⅓
+            "U+2154", # ⅔
+            "U+2295", # ⊕
         ]))
+    # TODO: 中央に寄って無い
     for code in wide_move_list:
         if code not in font:
             continue
@@ -555,11 +535,12 @@ def task_ttf():
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
     for flavor in flavors:
         for style in styles:
-            font_list = [f'build/IO-{flavor}-{style}.ttf']
-            font_list.extend([
+            font_list = [
+                f'build/IO-{flavor}-{style}.ttf',
+                'src/custom/visible_space.ttf',
                 f'build/JA-{style}.ttf',
-                f'build/NF.ttf',
-            ])
+                'build/NF.ttf',
+            ]
             if style.startswith('Bold'):
                 font_list.append('build/NE-Bold.ttf')
             else:
