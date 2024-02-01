@@ -111,22 +111,17 @@ def iosevka_subset(font_files, flavor, style, task):
             'U+2690..U+2691', # ⚐⚑
         ]))
     elif flavor == 'FULLWIDTH':
-        for code in wide_list:
-            if code not in cmap:
-                continue
-            name = cmap[code]
-            if font['hmtx'][name][0] == 500:
-                print(f'{code:04X} missmatch ', chr(code))
-                remove_list.append(code)
-        remove_list.extend(expand_list([
-            # 'U+00A7..U+00A8', # §¨ JPフォントを利用
-            # 'U+00AA', # ªJPフォントを利用
-            # 'U+00AD..U+00AE', # JPフォントを利用
-            # 'U+00B0..U+00B4', # JPフォントを利用
-            # 'U+00B6..U+00BA', # JPフォントを利用
-            # 'U+00BC..U+00BF', # JPフォントを利用
-            # 'U+00C6',
-        ]))
+        # for code in wide_list:
+        #     if code not in cmap:
+        #         continue
+        #     name = cmap[code]
+        #     if font['hmtx'][name][0] == 500:
+        #         print(f'{code:04X} missmatch ', chr(code))
+        #         remove_list.append(code)
+        # 予め調べておいた日本語フォントを優先するリスト
+        with open('./eaw-fullwidth-ja.json', 'r') as f:
+            ja_list = json.load(f)
+        remove_list.extend(expand_list(ja_list))
     for code in remove_list:
         unicodes.discard(code)
 
