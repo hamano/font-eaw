@@ -44,16 +44,16 @@ def update_cmap(font, code, name):
         if code in table.cmap:
             table.cmap[code] = name
 
-def towide(font, wwid_mapping, code):
+def towide(font, mapping, code):
     cmap = font.getBestCmap()
     if code not in cmap:
         #print(f'U+{code:04X} not found in cmap')
         return
     name = cmap[code]
-    if name not in wwid_mapping:
+    if name not in mapping:
         #print(f'{name} U+{code:04X} not found in wwid_mapping')
         return
-    wide_name = wwid_mapping[name]
+    wide_name = mapping[name]
     #print(f'towide U+{code:04X} {wide_name}')
     update_cmap(font, code, wide_name)
 
@@ -256,7 +256,7 @@ def iosevka_fixup(flavor, style, task):
 
 def task_iosevka_fixup():
     """Iosevkaの調整"""
-    flavors = ['CONSOLE', 'FULLWIDTH', 'HALFWIDTH']
+    flavors = ['CONSOLE', 'FULLWIDTH']
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
     for flavor in flavors:
         for style in styles:
@@ -295,16 +295,18 @@ def bizud_subset(task):
 
 def task_bizud_subset():
     """BIZUDのサブセット"""
+    flavors = ['CONSOLE', 'FULLWIDTH']
     styles = ['Regular', 'Bold']
-    for style in styles:
-        yield {
-            'name': style,
-            'actions': [bizud_subset],
-            'file_dep': [f'src/bizudgothic/BIZUDGothic-{style}.ttf'],
-            'targets': [f'build/JA-{style}-subset.ttf'],
-            'clean': True,
-            'verbosity': 2,
-        }
+    for flavor in flavors:
+        for style in styles:
+            yield {
+                'name': f'{flavor}-{style}',
+                'actions': [bizud_subset],
+                'file_dep': [f'src/bizudgothic/BIZUDGothic-{style}.ttf'],
+                'targets': [f'build/JA-{flavor}-{style}-subset.ttf'],
+                'clean': True,
+                'verbosity': 2,
+            }
 
 
 def bizud_fixup(style, task):
@@ -335,20 +337,22 @@ def bizud_fixup(style, task):
 
 def task_bizud_fixup():
     """BizUDの調整"""
+    flavors = ['CONSOLE', 'FULLWIDTH']
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
-    for style in styles:
-        if style.startswith('Bold'):
-            font_file = 'build/JA-Bold-subset.ttf'
-        else:
-            font_file = 'build/JA-Regular-subset.ttf'
-        yield {
-            'name': style,
-            'actions': [(bizud_fixup, [style])],
-            'file_dep': [font_file],
-            'targets': [f'build/JA-{style}.ttf'],
-            'clean': True,
-            'verbosity': 2,
-        }
+    for flavor in flavors:
+        for style in styles:
+            if style.startswith('Bold'):
+                font_file = f'build/JA-{flavor}-Bold-subset.ttf'
+            else:
+                font_file = f'build/JA-{flavor}-Regular-subset.ttf'
+            yield {
+                'name': f'{flavor}-{style}',
+                'actions': [(bizud_fixup, [style])],
+                'file_dep': [font_file],
+                'targets': [f'build/JA-{flavor}-{style}.ttf'],
+                'clean': True,
+                'verbosity': 2,
+            }
 
 
 def nerdfont_subset(task):
@@ -415,6 +419,7 @@ def notoemoji_subset(style, task):
     # remove code
     for code in remove_code:
         unicodes.discard(code)
+
     subsetter.populate(unicodes=unicodes)
     subsetter.subset(font)
     font_new = instancer.instantiateVariableFont(font, {"wght": wght})
@@ -533,7 +538,7 @@ def task_ttf():
             font_list = [
                 f'build/IO-{flavor}-{style}.ttf',
                 'src/custom/visible_space.ttf',
-                f'build/JA-{style}.ttf',
+                f'build/JA-{flavor}-{style}.ttf',
                 'build/NF.ttf',
             ]
             if style.startswith('Bold'):
