@@ -222,23 +222,23 @@ def iosevka_fixup(flavor, style, task):
         ]))
     elif flavor == 'FULLWIDTH':
         wide_move_list.extend(expand_list([
-            'U+00A4', # ¤
-            "U+02D0", # ː
-            "U+02D8", # ˘
-            "U+02D9", # ˙
-            "U+02DA", # ˚
-            "U+02DB", # ˛
-            "U+02DD", # ˝
-            "U+2013", # –
-            "U+2022", # •
-            "U+203E", # ‾
-            "U+2074", # ⁴
-            "U+20AC", # €
-            "U+2113", # ℓ
-            "U+2122", # ™
-            "U+2153", # ⅓
-            "U+2154", # ⅔
-            "U+2295", # ⊕
+            # 'U+00A4', # ¤
+            # "U+02D0", # ː
+            # "U+02D8", # ˘
+            # "U+02D9", # ˙
+            # "U+02DA", # ˚
+            # "U+02DB", # ˛
+            # "U+02DD", # ˝
+            # "U+2013", # –
+            # "U+2022", # •
+            # "U+203E", # ‾
+            # "U+2074", # ⁴
+            # "U+20AC", # €
+            # "U+2113", # ℓ
+            # "U+2122", # ™
+            # "U+2153", # ⅓
+            # "U+2154", # ⅔
+            # "U+2295", # ⊕
         ]))
     # TODO: 中央に寄って無い
     for code in wide_move_list:
@@ -441,7 +441,7 @@ def task_notoemoji_subset():
         }
 
 
-def notoemoji_fixup(task):
+def notoemoji_fixup(flavor, task):
     font_file = list(task.file_dep)[0]
     font = fontforge.open(font_file)
 
@@ -458,21 +458,41 @@ def notoemoji_fixup(task):
             matrix = [scale, 0, 0, scale, 0, 0]
             glyph.transform(matrix)
 
+    if flavor == 'FULLWIDTH':
+        locale = util.load_fullwidth_locale()
+        for glyph in font.glyphs():
+            if glyph.unicode < 0:
+                continue
+            width = util.wcwidth(locale, glyph.unicode)
+            if glyph.width == 2048 and width == 1:
+                # 半角に縮小
+                glyph.left_side_bearing = 0
+                glyph.right_side_bearing = 0
+                bbox = glyph.boundingBox()
+                bbwidth = bbox[2] - bbox[0]
+                if bbwidth == 0:
+                    continue
+                scale = 1024.0 / bbwidth
+                glyph.transform(psMat.scale(scale, 1))
+                glyph.width = 1024
+
     font.save(task.targets[0])
     font.close()
 
 def task_notoemoji_fixup():
     """NotoEmojiの調整"""
+    flavors = ['CONSOLE', 'FULLWIDTH']
     styles = ['Regular', 'Bold']
-    for style in styles:
-        yield {
-            'name': style,
-            'actions': [notoemoji_fixup],
-            'file_dep': [f'build/NE-{style}-subset.ttf'],
-            'targets': [f'build/NE-{style}.ttf'],
-            'clean': True,
-            'verbosity': 2,
-        }
+    for flavor in flavors:
+        for style in styles:
+            yield {
+                'name': f'{flavor}-{style}',
+                'actions': [(notoemoji_fixup, [flavor])],
+                'file_dep': [f'build/NE-{style}-subset.ttf'],
+                'targets': [f'build/NE-{flavor}-{style}.ttf'],
+                'clean': True,
+                'verbosity': 2,
+            }
 
 
 def merge_font(target, path, unicodes=None, overwrite=False):
@@ -542,9 +562,9 @@ def task_ttf():
                 'build/NF.ttf',
             ]
             if style.startswith('Bold'):
-                font_list.append('build/NE-Bold.ttf')
+                font_list.append(f'build/NE-{flavor}-Bold.ttf')
             else:
-                font_list.append('build/NE-Regular.ttf')
+                font_list.append(f'build/NE-{flavor}-Regular.ttf')
             yield {
                 'name': f'{flavor}-{style}',
                 'actions': [(ttf, [flavor, style, font_list])],
