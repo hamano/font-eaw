@@ -199,6 +199,7 @@ def iosevka_fixup(flavor, style, task):
             # "U+2264", # ≤
             # "U+2265", # ≥
             # "U+2660..U+2661", "U+2663..U+2665", "U+2667", # CARD SUIT
+            'U+EE00..U+EE05', # progress
         ]))
     for code in wide_list:
         if code not in font:
