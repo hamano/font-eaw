@@ -37,6 +37,19 @@ def get_wwid_mapping(font):
     mapping = lookup_wwid.SubTable[0].ExtSubTable.mapping
     return mapping
 
+def get_nwid_mapping(font):
+    gsub = font['GSUB'].table
+    index = None
+    for feature in gsub.FeatureList.FeatureRecord:
+        if feature.FeatureTag == 'NWID':
+            index = feature.Feature.LookupListIndex[0]
+    if index == None:
+        print('NWID LookupIndex notfound')
+        return None
+    lookup_wwid = gsub.LookupList.Lookup[index]
+    mapping = lookup_wwid.SubTable[0].ExtSubTable.mapping
+    return mapping
+
 def update_cmap(font, code, name):
     for table in font['cmap'].tables:
         if not table.isUnicode():
