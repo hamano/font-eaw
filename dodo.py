@@ -203,15 +203,13 @@ def iosevka_fixup(flavor, style, task):
         'U+4DC0..U+4DFF', # HEXAGRAM Unicode 16でWide
         'U+1D300..U+1D356', # MONOGRAM Unicode 16でWide
     ])
-    if flavor == 'CONSOLE':
-        wide_list.extend(expand_list([
-        ])) 
-    elif flavor == 'FULLWIDTH':
+    if flavor == 'FULLWIDTH':
         wide_list.extend(expand_list([
             # "U+2248", # ≈
             # "U+2264", # ≤
             # "U+2265", # ≥
-            # "U+2660..U+2661", "U+2663..U+2665", "U+2667", # CARD SUIT
+            'U+2660..U+2661', 'U+2663..U+2665', 'U+2667', # CARD SUIT
+            'U+2669', 'U+266C', # ♩♬
             'U+EE00..U+EE05', # progress
         ]))
     for code in wide_list:
@@ -224,6 +222,15 @@ def iosevka_fixup(flavor, style, task):
         scale = resize_width / glyph.width
         matrix = psMat.scale(scale, 1)
         glyph.transform(matrix)
+
+    # 半角に縮小
+    if flavor == 'FULLWIDTH':
+        half_list = expand_list([
+            'U+27F5..U+27FF', 'U+2B33', # ⟵〜⟿Neutralなので半角に
+        ])
+        for code in half_list:
+            glyph = font[code]
+            glyph.transform(psMat.scale(0.5, 1))
 
     # 全角にして中央寄せ
     wide_move_list = expand_list([
@@ -323,7 +330,7 @@ def task_bizud_subset():
             }
 
 
-def bizud_fixup(style, task):
+def bizud_fixup(flavor, style, task):
     font_file = list(task.file_dep)[0]
     font = fontforge.open(font_file)
 
@@ -335,7 +342,17 @@ def bizud_fixup(style, task):
         # add "nf-" prefix
         glyph.glyphname = f"ja-{glyph.glyphname}"
 
-    
+    # 半角に縮小
+    if flavor == 'FULLWIDTH':
+        half_list = expand_list([
+            'U+2318', # ⌘ Neutralなので半角に
+            'U+2601..U+2603', # ☁☂☃ Neutralなので半角に
+            'U+2616..U+2617', # ☖☗ Neutralなので半角に
+        ])
+        for code in half_list:
+            glyph = font[code]
+            glyph.transform(psMat.scale(0.5, 1))
+
     if style.endswith('Italic'):
         angle = 9
         font.italicangle = -angle
@@ -361,7 +378,7 @@ def task_bizud_fixup():
                 font_file = f'build/JA-{flavor}-Regular-subset.ttf'
             yield {
                 'name': f'{flavor}-{style}',
-                'actions': [(bizud_fixup, [style])],
+                'actions': [(bizud_fixup, [flavor, style])],
                 'file_dep': [font_file],
                 'targets': [f'build/JA-{flavor}-{style}.ttf'],
                 'clean': True,
@@ -471,6 +488,16 @@ def notoemoji_fixup(flavor, task):
             scale = resize_width / glyph.width
             matrix = [scale, 0, 0, scale, 0, 0]
             glyph.transform(matrix)
+
+    if flavor == 'CONSOLE':
+        half_list = expand_list([
+            'U+2744', # ❄ Neutralなので半角に
+            'U+2747', # ❇ Neutralなので半角に
+            'U+2763', # ❣ Neutralなので半角に
+        ])
+        for code in half_list:
+            glyph = font[code]
+            glyph.transform(psMat.scale(0.5, 1))
 
     if flavor == 'FULLWIDTH':
         locale = util.load_fullwidth_locale()
