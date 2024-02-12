@@ -42,6 +42,6 @@ def list_fwid():
         print(name, hmtx[name], new_name, hmtx[new_name])
 
 def main():
-    list_fwid()
+    list_glyph()
 
 main()
