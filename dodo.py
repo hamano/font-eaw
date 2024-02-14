@@ -233,15 +233,8 @@ def iosevka_fixup(flavor, style, task):
             glyph.transform(psMat.scale(0.5, 1))
 
     # 全角にして中央寄せ
-    wide_move_list = expand_list([
-        #"U+2329..U+232A", # 〈〉
-        #"U+1F0A0..U+1F0F5", # PLAYING CARD
-    ])
-    if flavor == 'CONSOLE':
-        wide_move_list.extend(expand_list([   
-            "U+25E6", # ◦
-        ]))
-    elif flavor == 'FULLWIDTH':
+    wide_move_list = []
+    if flavor == 'FULLWIDTH':
         wide_move_list.extend(expand_list([
             # 'U+00A4', # ¤
             # "U+02D0", # ː
@@ -259,14 +252,20 @@ def iosevka_fixup(flavor, style, task):
             # "U+2122", # ™
             # "U+2153", # ⅓
             # "U+2154", # ⅔
-            # "U+2295", # ⊕
+            'U+2295', # ⊕
+            'U+2299', # ⊙
         ]))
-    # TODO: 中央に寄って無い
+    # 全角に広げて中央寄せ
     for code in wide_move_list:
         if code not in font:
             continue
         glyph = font[code]
-        glyph.transform(psMat.translate((glyph.width / 4), 0))
+        bbox = glyph.boundingBox()
+        bbwidth = bbox[2] - bbox[0]
+        if bbwidth == 0:
+            continue
+        glyph.left_side_bearing = int((2048 - bbwidth) / 2)
+        glyph.right_side_bearing = int(2048 - bbwidth - glyph.left_side_bearing)
         glyph.width = 2048
 
     font.ascent = 1802
@@ -291,7 +290,7 @@ def task_iosevka_fixup():
             }
 
 
-def bizud_subset(task):
+def bizud_subset(flavor, style, task):
     font_file = list(task.file_dep)[0]
     font = TTFont(font_file)
     del font['DSIG']
@@ -304,6 +303,7 @@ def bizud_subset(task):
     # latin文字を削除
     for code in range(0x0000, 0x02AF + 1):
         unicodes.discard(code)
+    # 音符を削除(一貫性のため)
     for code in range(0x2669, 0x266F + 1):
         unicodes.discard(code)
 
@@ -322,7 +322,7 @@ def task_bizud_subset():
         for style in styles:
             yield {
                 'name': f'{flavor}-{style}',
-                'actions': [bizud_subset],
+                'actions': [(bizud_subset, [flavor, style])],
                 'file_dep': [f'src/bizudgothic/BIZUDGothic-{style}.ttf'],
                 'targets': [f'build/JA-{flavor}-{style}-subset.ttf'],
                 'clean': True,
