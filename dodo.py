@@ -204,10 +204,8 @@ def iosevka_fixup(flavor, style, task):
         'U+1D300..U+1D356', # MONOGRAM Unicode 16でWide
     ])
     if flavor == 'FULLWIDTH':
+        # TODO: jaフォントを使ったほうが良いものもある
         wide_list.extend(expand_list([
-            # "U+2248", # ≈
-            # "U+2264", # ≤
-            # "U+2265", # ≥
             'U+2660..U+2661', 'U+2663..U+2665', 'U+2667', # CARD SUIT
             'U+2669', 'U+266C', # ♩♬
             'U+EE00..U+EE05', # progress
@@ -235,26 +233,10 @@ def iosevka_fixup(flavor, style, task):
     # 全角にして中央寄せ
     wide_move_list = []
     if flavor == 'FULLWIDTH':
-        wide_move_list.extend(expand_list([
-            # 'U+00A4', # ¤
-            # "U+02D0", # ː
-            # "U+02D8", # ˘
-            # "U+02D9", # ˙
-            # "U+02DA", # ˚
-            # "U+02DB", # ˛
-            # "U+02DD", # ˝
-            # "U+2013", # –
-            # "U+2022", # •
-            # "U+203E", # ‾
-            # "U+2074", # ⁴
-            # "U+20AC", # €
-            # "U+2113", # ℓ
-            # "U+2122", # ™
-            # "U+2153", # ⅓
-            # "U+2154", # ⅔
-            'U+2295', # ⊕
-            'U+2299', # ⊙
-        ]))
+        # TODO: jaフォントを使ったほうが良いものもある
+        with open('./eaw-fullwidth-wide.json', 'r') as f:
+            wide_move_list.extend(expand_list(json.load(f)))
+
     # 全角に広げて中央寄せ
     for code in wide_move_list:
         if code not in font:
