@@ -71,8 +71,8 @@ def towide(font, mapping, code):
     update_cmap(font, code, wide_name)
 
 
-def iosevka_subset(font_files, flavor, style, task):
-    font = TTFont(font_files[0])
+def iosevka_subset(flavor, style, task):
+    font = TTFont(list(task.file_dep)[0])
     cmap = font.getBestCmap()
     update_cmap(font, ord('*'), 'asterisk.VSAB-3')
     update_cmap(font, ord('%'), 'percent.VSAO-3')
@@ -148,26 +148,18 @@ def task_iosevka_subset():
     flavors = ['CONSOLE', 'FULLWIDTH']
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
     filenames = {
-        'Regular': [
-            'src/iosevka/Iosevka-Term-Curly.ttf',
-        ],
-        'Bold': [
-            'src/iosevka/Iosevka-Term-Curly-Bold.ttf',
-        ],
-        'Italic': [
-            'src/iosevka/Iosevka-Term-Curly-Italic.ttf',
-        ],
-        'BoldItalic': [
-            'src/iosevka/Iosevka-Term-Curly-Bold-Italic.ttf',
-        ],
+        'Regular': 'IosevkaTermCurly-Regular.ttf',
+        'Bold': 'IosevkaTermCurly-Bold.ttf',
+        'Italic': 'IosevkaTermCurlySlab-Italic.ttf',
+        'BoldItalic': 'IosevkaTermCurlySlab-BoldItalic.ttf',
     }
     for flavor in flavors:
         for style in styles:
-            font_files = filenames[style]
+            font_file = filenames[style]
             yield {
                 'name': f'{flavor}-{style}',
-                'actions': [(iosevka_subset, [font_files, flavor, style])],
-                'file_dep': font_files,
+                'actions': [(iosevka_subset, [flavor, style])],
+                'file_dep': [f'src/iosevka/{font_file}'],
                 'targets': [f'build/IO-{flavor}-{style}-subset.ttf'],
                 'clean': True,
                 'verbosity': 2,
