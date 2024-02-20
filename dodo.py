@@ -155,7 +155,7 @@ def task_iosevka_subset():
     }
     for flavor in flavors:
         for style in styles:
-            font_file = filenames[style]
+            font_file = filenames.get(style)
             yield {
                 'name': f'{flavor}-{style}',
                 'actions': [(iosevka_subset, [flavor, style])],
@@ -291,13 +291,20 @@ def bizud_subset(flavor, style, task):
 def task_bizud_subset():
     """BIZUDのサブセット"""
     flavors = ['CONSOLE', 'FULLWIDTH']
-    styles = ['Regular', 'Bold']
+    styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
+    filenames = {
+        'Regular': f'src/bizudgothic/BIZUDGothic-Regular.ttf',
+        'Bold': f'src/bizudgothic/BIZUDGothic-Regular.ttf',
+        'Italic': f'src/bizudmincho/BIZUDMincho-Regular.ttf',
+        'BoldItalic': f'src/bizudmincho/BIZUDMincho-Bold.ttf',
+    }
     for flavor in flavors:
         for style in styles:
+            filename = filenames.get(style)
             yield {
                 'name': f'{flavor}-{style}',
                 'actions': [(bizud_subset, [flavor, style])],
-                'file_dep': [f'src/bizudgothic/BIZUDGothic-{style}.ttf'],
+                'file_dep': [filename],
                 'targets': [f'build/JA-{flavor}-{style}-subset.ttf'],
                 'clean': True,
                 'verbosity': 2,
@@ -346,10 +353,7 @@ def task_bizud_fixup():
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
     for flavor in flavors:
         for style in styles:
-            if style.startswith('Bold'):
-                font_file = f'build/JA-{flavor}-Bold-subset.ttf'
-            else:
-                font_file = f'build/JA-{flavor}-Regular-subset.ttf'
+            font_file = f'build/JA-{flavor}-{style}-subset.ttf'
             yield {
                 'name': f'{flavor}-{style}',
                 'actions': [(bizud_fixup, [flavor, style])],
