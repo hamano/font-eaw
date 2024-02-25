@@ -35,9 +35,6 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 
 このフォントは以下のフレーバーを提供します。
 
-## EAW-FULLWIDTH
-East Asian Ambisious Width文字をすべて全角にしたフォント
-
 ## EAW-CONSOLE
 AmbiguousとNeutralの文字幅を個別に裁定
 
@@ -49,8 +46,11 @@ AmbiguousとNeutralの文字幅を個別に裁定
 とした修正ロケールに適合するフォントです。
 
 ## EAW-FULLWIDTH
-East Asian Ambisious Width文字をすべて全角にしたフォント
-Ambisious Widthを全角に統一するなど、古典的なアプリケーションで利用できます。
+- East Asian Width=Ambisious文字をすべて全角にしたフォント
+- Ambisious Widthを全角に統一するしかない、古典的なアプリケーションに適応します。
+- 罫線が全角となるのでTUIが壊れます。
+- EAW=Nerutralな文字が半角となるので潰れる絵文字があります。
+- ギリシャ文字やキリル文字が全角となります。
 
 ### サンプル
 
