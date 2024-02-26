@@ -294,7 +294,7 @@ def task_bizud_subset():
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
     filenames = {
         'Regular': f'src/bizudgothic/BIZUDGothic-Regular.ttf',
-        'Bold': f'src/bizudgothic/BIZUDGothic-Regular.ttf',
+        'Bold': f'src/bizudgothic/BIZUDGothic-Bold.ttf',
         'Italic': f'src/bizudmincho/BIZUDMincho-Regular.ttf',
         'BoldItalic': f'src/bizudmincho/BIZUDMincho-Bold.ttf',
     }
