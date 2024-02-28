@@ -11,9 +11,8 @@ image = Image.new('RGB', (width, height), color=COLOR_WHITE)
 
 draw = ImageDraw.Draw(image)
 
-#font_path = "/usr/share/fonts/opentype/unifont/unifont_jp.otf"
-#font_path = "build/EAW-CONSOLE-Regular.ttf"
-font_path = "build/EAW-CONSOLE-Bold.ttf"
+font_path = "build/EAW-CONSOLE-Regular.ttf"
+#font_path = "build/EAW-CONSOLE-Bold.ttf"
 font = ImageFont.truetype(font_path, font_size)
 
 x, y = 0, 0
