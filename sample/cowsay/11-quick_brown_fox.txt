@@ -1,0 +1,4 @@
+The quick brown fox jumps over the lazy dog
+[1mThe quick brown fox jumps over the lazy dog[22m
+[3mThe quick brown fox jumps over the lazy dog[23m
+[1m[3mThe quick brown fox jumps over the lazy dog[23m[22m
