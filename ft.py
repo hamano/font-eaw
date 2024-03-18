@@ -58,16 +58,16 @@ def list_cmap():
         print(table)
         print(table.platformID, table.platEncID, table.language)
 
-def list_fwid():
-    path = sys.argv[1]
-    font = TTFont(path)
+@cli.command()
+@click.argument('filename')
+def list_fwid(filename):
+    font = TTFont(filename)
     gsub = font['GSUB'].table
     hmtx = font['hmtx']
     for feature in gsub.FeatureList.FeatureRecord:
         if feature.FeatureTag == 'fwid':
             index = feature.Feature.LookupListIndex[0]
             break
-
     lookup = gsub.LookupList.Lookup[index]
     mapping = lookup.SubTable[0].mapping
     for name in mapping.keys():
