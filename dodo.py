@@ -110,6 +110,8 @@ def iosevka_subset(flavor, style, task):
     remove_list = expand_list([
         'U+2028..U+2029', # LINE SEPARATOR,PARAGRAPH SEPARATOR
         'U+203B', # ※ JPフォントを利用
+        'U+2121', # ℡ JPフォントを利用
+        'U+213B', # ℻ JPフォントを利用
         'U+2329..U+232A', # 〈〉EAW=Wなのに半角なので削除
         'U+26A1', # ⚡EAW=Wなのに半角なので削除
         'U+26B2', # ⚲EAW=Wなのに半角なので削除
