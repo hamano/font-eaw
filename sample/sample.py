@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 from PIL import Image, ImageDraw, ImageFont
 
+# サンプルテキストを読み込み
+with open('sample/sample.txt', 'r') as f:
+    lines = f.readlines()
+
 # 画像のサイズ
 font_size = 64
-width, height = font_size * 16, font_size * 18
+line_height = len(lines)
+width, height = font_size * 16, font_size * line_height
 
 COLOR_WHITE=(0xFF, 0xFF, 0xFF)
 COLOR_BLACK=(0, 0, 0)
@@ -16,12 +21,10 @@ font_path = "build/EAW-CONSOLE-Regular.ttf"
 font = ImageFont.truetype(font_path, font_size)
 
 x, y = 0, 0
-
-with open('sample/sample.txt', 'r') as f:
-    for line in f:
-        print(line.rstrip())
-        draw.text((x, y), line, font=font, fill=COLOR_BLACK)
-        y += font_size
+for line in lines:
+    print(line.rstrip())
+    draw.text((x, y), line, font=font, fill=COLOR_BLACK)
+    y += font_size
 
 image.save("sample/sample.png")
 
