@@ -111,7 +111,6 @@ def iosevka_subset(flavor, style, task):
         'U+2028..U+2029', # LINE SEPARATOR,PARAGRAPH SEPARATOR
         'U+203B', # ※ JPフォントを利用
         'U+2121', # ℡ JPフォントを利用
-        'U+213B', # ℻ JPフォントを利用
         'U+2329..U+232A', # 〈〉EAW=Wなのに半角なので削除
         'U+26A1', # ⚡EAW=Wなのに半角なので削除
         'U+26B2', # ⚲EAW=Wなのに半角なので削除
@@ -124,15 +123,9 @@ def iosevka_subset(flavor, style, task):
     if flavor == 'CONSOLE':
         remove_list.extend(expand_list([
             'U+2690..U+2691', # ⚐⚑
+            'U+213B', # ℻ JPフォントを利用
         ]))
     elif flavor == 'FULLWIDTH':
-        # for code in wide_list:
-        #     if code not in cmap:
-        #         continue
-        #     name = cmap[code]
-        #     if font['hmtx'][name][0] == 500:
-        #         print(f'{code:04X} missmatch ', chr(code))
-        #         remove_list.append(code)
         # 予め調べておいた日本語フォントを優先するリスト
         with open('./eaw-fullwidth-ja.json', 'r') as f:
             ja_list = json.load(f)
@@ -155,6 +148,7 @@ def task_iosevka_subset():
         'Italic': 'IosevkaTermCurlySlab-Italic.ttf',
         'BoldItalic': 'IosevkaTermCurlySlab-BoldItalic.ttf',
     }
+
     for flavor in flavors:
         for style in styles:
             font_file = filenames.get(style)
@@ -203,6 +197,10 @@ def iosevka_fixup(flavor, style, task):
             'U+2660..U+2661', 'U+2663..U+2665', 'U+2667', # CARD SUIT
             'U+2669', 'U+266C', # ♩♬
             'U+EE00..U+EE05', # progress
+        ]))
+    if flavor == 'CONSOLE':
+        wide_list.extend(expand_list([
+            'U+2180..U+2182', # ↀↁↂ
         ]))
     for code in wide_list:
         if code not in font:
