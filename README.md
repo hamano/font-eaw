@@ -9,6 +9,8 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 
 [locale-eaw](https://github.com/hamano/locale-eaw)との組み合わせにより、glibcロケール、シェル、ターミナル、テキストエディタ、フォントの全ての文字幅を一致させることでターミナル作業が快適になります。
 
+![cowsay](sample/cowsay/cowsay.gif)
+
 # フォントにまつわるEAW問題
 - 狭くなる
 - 右端が切れる
@@ -19,7 +21,7 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 
 # 合成フォント
 
-このフォントは以下のフォントを合成しています。
+このフォントは下記フォントを合成しています。
 - Iosevka Curly
 - BIZ UDGothic
 - Nerd Fonts
@@ -43,7 +45,7 @@ AmbiguousとNeutralの文字幅を個別に裁定
 - NerdFontのプライベート領域を全角
 - 半角で描画することが困難な絵文字を全角
 
-とした修正ロケールに適合するフォントです。
+修正ロケール[EAW-CONSOLE](https://github.com/hamano/locale-eaw)に適合するフォントです。
 
 ## EAW-FULLWIDTH
 - East Asian Width=Ambisious文字をすべて全角にしたフォント
@@ -51,6 +53,8 @@ AmbiguousとNeutralの文字幅を個別に裁定
 - 罫線が全角となるのでTUIが壊れます。
 - EAW=Nerutralな文字が半角となるので潰れる絵文字があります。
 - ギリシャ文字やキリル文字が全角となります。
+
+修正ロケール[EAW-FULLWIDTH](https://github.com/hamano/locale-eaw)に適合するフォントです。
 
 ### サンプル
 
