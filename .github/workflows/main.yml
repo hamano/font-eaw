@@ -1,0 +1,11 @@
+name: build
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: check version
+        run: |
+          python3 --version
+          apt install fontforge
