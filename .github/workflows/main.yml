@@ -1,5 +1,5 @@
 name: build
-
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -9,3 +9,4 @@ jobs:
         run: |
           python3 --version
           apt install fontforge
+          pip3 install poetry
