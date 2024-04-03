@@ -8,5 +8,5 @@ jobs:
       - name: check version
         run: |
           python3 --version
-          apt install fontforge
+          sudo apt-get -y install fontforge
           pip3 install poetry
