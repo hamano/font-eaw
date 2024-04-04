@@ -8,5 +8,10 @@ jobs:
       - name: check version
         run: |
           python3 --version
-          sudo apt-get -y install fontforge
-          pip3 install poetry
+      - name: install deps
+        run: |
+          sudo apt-get -y install fontforge python3-poetry python3-fontforge
+          poetry update
+      - name: build
+        run: |
+          poetry run doit all
