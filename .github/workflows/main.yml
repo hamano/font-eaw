@@ -14,4 +14,4 @@ jobs:
           poetry update
       - name: build
         run: |
-          poetry run doit all
+          make
