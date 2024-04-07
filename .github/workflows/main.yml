@@ -13,5 +13,11 @@ jobs:
           sudo apt-get -y install fontforge python3-poetry python3-fontforge
           poetry update
       - name: build
-        run: |
-          make
+        run: make
+      - name: test
+        run: make test
+      - name: upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: font
+          path: build/*.ttc
