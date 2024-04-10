@@ -27,6 +27,6 @@ for f in *.txt; do
   cowsay_file $f
 done
 
-convert -loop 0 -delay 200 +repage ${TEMP_DIR}/*.gif cowsay.gif
+convert -loop 0 -delay 300 +repage ${TEMP_DIR}/*.gif cowsay.gif
 
 rm -rf ${TEMP_DIR}
