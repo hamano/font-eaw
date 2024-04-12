@@ -7,7 +7,7 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 これを解決するための[修正ロケール](https://github.com/hamano/locale-eaw)を公開していますが
 フォントに依存して不自然な表示となるのでフォントも調整する必要がありました。
 
-[locale-eaw](https://github.com/hamano/locale-eaw)との組み合わせにより、glibcロケール、シェル、ターミナル、テキストエディタ、フォントの全ての文字幅を一致させることでターミナル作業が快適になります。
+[locale-eaw](https://github.com/hamano/locale-eaw)との組み合わせにより、glibcロケール、シェル、ターミナル、テキストエディタ、フォントの全ての文字幅を一致させることで壊れず快適なターミナル環境を実現します。
 
 ![cowsay](sample/cowsay/cowsay.gif)
 
@@ -55,12 +55,15 @@ AmbiguousとNeutralの文字幅を個別に裁定
 - 罫線が全角となるのでTUIが壊れます。
 - EAW=Nerutralな文字が半角となるので潰れる絵文字があります。
 - ギリシャ文字やキリル文字が全角となります。
+- 個別の文字幅を設定できないターミナル向けで非推奨です
 
 修正ロケール[EAW-FULLWIDTH](https://github.com/hamano/locale-eaw)に適合するフォントです。
 
 ### サンプル
 
 ![EAW-CONSOLEのサンプル画像](./sample/sample.png)
+
+[sample.txt](./sample/sample.txt)をお気に入りのテキストエディタで正常に編集できるか試してみよう!
 
 ## イタリック体の再考
 
