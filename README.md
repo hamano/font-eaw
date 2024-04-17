@@ -61,9 +61,9 @@ AmbiguousとNeutralの文字幅を個別に裁定
 
 ### サンプル
 
-![EAW-CONSOLEのサンプル画像](./sample/sample.png)
+![sample.txt](./sample/sample.txt)をお気に入りのテキストエディタで正常に編集できるか試してみよう!
 
-[sample.txt](./sample/sample.txt)をお気に入りのテキストエディタで正常に編集できるか試してみよう!
+![EAW-CONSOLEのサンプル画像](./sample/sample.png)
 
 ## イタリック体の再考
 
