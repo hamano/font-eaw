@@ -74,5 +74,5 @@ AmbiguousとNeutralの文字幅を個別に裁定
 
 これにより和文でもイタリック体が区別しやすくなることを期待しています。
 
-[文字修飾](sample/style.png)
+![文字修飾](sample/style.png)
 
