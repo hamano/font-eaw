@@ -8,7 +8,7 @@ function print_style() {
 }
 
 clear
-print_style "Linuxでコンピューターの世界が広がります。1234566780"
+print_style "Linuxでコンピューターの世界が広がります。1234567890"
 #print_style "The quick brown fox jumps over the lazy dog"
 #print_style "Grumpy wizards make toxic brew for the evil Queen and Jack."
 #
