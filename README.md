@@ -17,7 +17,7 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 - 重なる
 - 重ならないがスペースの後置が必要
 
-[locale-eaw](https://github.com/hamano/locale-eaw)とこのフォントの組み合わせによって上記の問題を修正します。
+[修正ロケール](https://github.com/hamano/locale-eaw)とこのフォントの組み合わせによって上記の問題を解決します。
 
 # 合成フォント
 
