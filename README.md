@@ -19,7 +19,13 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 
 [修正ロケール](https://github.com/hamano/locale-eaw)とこのフォントの組み合わせによって上記の問題を解決します。
 
-# 合成フォント
+# 特徴
+
+- 視認性の高いプログラミング、ターミナル作業向けフォント
+- Regular, Bold, Italic, BoldItalicの4書体
+- 見える全角スペース
+- 絵文字、NerdFontを幅広くサポート
+- East Asian Width問題により、文字が潰れない、重ならない
 
 このフォントは現状下記フォントを合成していますが、
 今後よりよいフォントがあれば入れ替えを行う可能性があります。
@@ -29,13 +35,7 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 - Nerd Fonts
 - Noto Emoji
 
-# 特徴
-
-- 視認性の高いプログラミング、ターミナル作業向けフォント
-- Regular, Bold, Italic, BoldItalicの4書体
-- 見える全角スペース
-- 絵文字、NerdFontを幅広くサポート
-- East Asian Width問題により、文字が潰れない、重ならない
+# フレーバー
 
 このフォントは以下のフレーバーを提供します。
 
@@ -61,7 +61,7 @@ AmbiguousとNeutralの文字幅を個別に裁定
 
 ### サンプル
 
-![sample.txt](./sample/sample.txt)をお気に入りのテキストエディタで正常に編集できるか試してみよう!
+[sample.txt](./sample/sample.txt)をお気に入りのテキストエディタで問題なく編集できるか試してみよう!
 
 ![EAW-CONSOLEのサンプル画像](./sample/sample.png)
 
