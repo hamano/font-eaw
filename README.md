@@ -61,7 +61,8 @@ AmbiguousとNeutralの文字幅を個別に裁定
 
 ### サンプル
 
-[sample.txt](./sample/sample.txt)をお気に入りのテキストエディタで問題なく編集できるか試してみよう!
+[sample.txt](https://github.com/hamano/font-eaw/raw/refs/heads/main/sample/sample.txt)
+をお気に入りのテキストエディタで問題なく編集できるか試してみよう!
 
 ![EAW-CONSOLEのサンプル画像](./sample/sample.png)
 
