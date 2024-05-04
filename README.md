@@ -12,10 +12,12 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 ![cowsay](sample/cowsay/cowsay.gif)
 
 # フォントにまつわるEAW問題
-- 狭くなる
-- 右端が切れる
 - 重なる
-- 重ならないがスペースの後置が必要
+![error1](sample/error/error1.png)
+- 狭くなる
+![error2](sample/error/error2.png)
+- 半分切れる
+![error3](sample/error/error3.png)
 
 [修正ロケール](https://github.com/hamano/locale-eaw)とこのフォントの組み合わせによって上記の問題を解決します。
 
