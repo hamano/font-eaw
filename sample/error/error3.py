@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 # 画像のサイズ
 font_size = 64
-width, height = font_size * 4, font_size
+width, height = font_size * 2, font_size
 
 COLOR_WHITE=(0xFF, 0xFF, 0xFF)
 COLOR_BLACK=(0, 0, 0)
@@ -16,8 +16,8 @@ font = ImageFont.truetype(font_path, font_size)
 
 draw.text((0, 0), '※', font=font, fill=COLOR_BLACK)
 draw.rectangle([(font_size / 2, 0), (font_size, font_size)], fill=COLOR_WHITE)
-draw.text((font_size * 2, 0), '', font=font, fill=COLOR_BLACK)
-draw.rectangle([(font_size * 2 + font_size / 2, 0), (font_size * 3, font_size)], fill=COLOR_WHITE)
+draw.text((font_size * 1, 0), '', font=font, fill=COLOR_BLACK)
+draw.rectangle([(font_size * 1 + font_size / 2, 0), (font_size * 2, font_size)], fill=COLOR_WHITE)
 
 image.save("sample/error/error3.png")
 
