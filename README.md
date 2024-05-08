@@ -7,16 +7,16 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 これを解決するための[修正ロケール](https://github.com/hamano/locale-eaw)を公開していますが
 フォントに依存して不自然な表示となるのでフォントも調整する必要がありました。
 
-[locale-eaw](https://github.com/hamano/locale-eaw)との組み合わせにより、glibcロケール、シェル、ターミナル、テキストエディタ、フォントの全ての文字幅を一致させることで壊れず快適なターミナル環境を実現します。
+[locale-eaw](https://github.com/hamano/locale-eaw)との組み合わせにより、glibcロケール、シェル、ターミナル、テキストエディタ、フォントの文字幅を全て一致させることで快適で壊れないなターミナル環境を実現します。
 
 ![cowsay](sample/cowsay/cowsay.gif)
 
 # フォントにまつわるEAW問題
 - 重なる
 ![error1](sample/error/error1.png)
-- 狭くなる
+- 縮む
 ![error2](sample/error/error2.png)
-- 半分切れる
+- 切れる
 ![error3](sample/error/error3.png)
 
 [修正ロケール](https://github.com/hamano/locale-eaw)とこのフォントの組み合わせによって上記の問題を解決します。
