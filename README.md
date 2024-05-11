@@ -49,7 +49,7 @@ AmbiguousとNeutralの文字幅を個別に裁定
 - NerdFontのプライベート領域を全角
 - 半角で描画することが困難な絵文字を全角
 
-修正ロケール[EAW-CONSOLE](https://github.com/hamano/locale-eaw)に適合するフォントです。
+修正ロケール[EAW-CONSOLE](https://github.com/hamano/locale-eaw)の文字幅と一致するフォントです。
 
 ## EAW-FULLWIDTH
 - East Asian Width=Ambisious文字をすべて全角にしたフォント
@@ -58,7 +58,7 @@ AmbiguousとNeutralの文字幅を個別に裁定
 - EAW=Nerutralな文字が半角となるので潰れる絵文字があります。
 - ギリシャ文字やキリル文字が全角となります。
 
-修正ロケール[EAW-FULLWIDTH](https://github.com/hamano/locale-eaw)に適合するフォントです。
+修正ロケール[EAW-FULLWIDTH](https://github.com/hamano/locale-eaw)の文字幅と一致するフォントです。
 
 ### サンプル
 
