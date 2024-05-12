@@ -78,3 +78,6 @@ AmbiguousとNeutralの文字幅を個別に裁定
 
 ![文字修飾](sample/style.png)
 
+# ライセンス
+
+SIL Open Font License v1.1
