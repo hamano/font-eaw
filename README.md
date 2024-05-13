@@ -78,6 +78,12 @@ AmbiguousとNeutralの文字幅を個別に裁定
 
 ![文字修飾](sample/style.png)
 
+## プログレスバー
+
+Fira Code由来のプログレスバーを利用できます。
+
+![プログレスバー](sample/progress/progress.gif)
+
 # ライセンス
 
 SIL Open Font License v1.1
