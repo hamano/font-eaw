@@ -47,7 +47,7 @@ for n in $(seq 0 20); do
   sleep 0.1
   import \
     -window $(xdotool getactivewindow) \
-    -crop 400x100+0+0 \
+    -crop 400x66+0+0 \
 	$(printf "${TEMP_DIR}/%02d.gif" $n)
 done
 
