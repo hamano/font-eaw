@@ -14,22 +14,35 @@ def main():
     width = 200
     offset_x = 300
     offset_y = 100
-    for i in range(0, 8, 2):
-        pen.moveTo((0, 200 * i + offset_y))
-        pen.lineTo((0, 200 * i + width + offset_y))
-        pen.lineTo((2048, 200 * i + width + offset_y))
-        pen.lineTo((2048, 200 * i + offset_y))
-        pen.closePath()
-        pen.moveTo((200 * i + offset_x, -200))
-        pen.lineTo((200 * i + width + offset_x, -200))
-        pen.lineTo((200 * i + width + offset_x, 2048))
-        pen.lineTo((200 * i + offset_x, 2048))
-        pen.closePath()
+    pen.moveTo((0, offset_y))
+    pen.lineTo((2048, offset_y))
+    pen.lineTo((2048, font_new.ascent - font_new.descent - offset_y))
+    pen.lineTo((0, font_new.ascent - font_new.descent - offset_y))
+    pen.closePath()
+
+    pen.moveTo((offset_x, -200))
+    pen.lineTo((2048 - offset_x, -200))
+    pen.lineTo((2048 - offset_x, 2048))
+    pen.lineTo((offset_x, 2048))
+    pen.closePath()
+
+# grid
+#    for i in range(0, 8, 2):
+#        pen.moveTo((0, 200 * i + offset_y))
+#        pen.lineTo((0, 200 * i + width + offset_y))
+#        pen.lineTo((2048, 200 * i + width + offset_y))
+#        pen.lineTo((2048, 200 * i + offset_y))
+#        pen.closePath()
+#        pen.moveTo((200 * i + offset_x, -200))
+#        pen.lineTo((200 * i + width + offset_x, -200))
+#        pen.lineTo((200 * i + width + offset_x, 2048))
+#        pen.lineTo((200 * i + offset_x, 2048))
+#        pen.closePath()
 
     glyph.removeOverlap()
     font_ja = fontforge.open('src/bizudgothic/BIZUDGothic-Regular.ttf')
-    #font_ja.selection.select('glyph13070')
-    #font_ja.copy()
+    font_ja.selection.select('glyph13070')
+    font_ja.copy()
     font_new.selection.select('grid')
     font_new.copy()
     font_new.selection.select(0x3000)
