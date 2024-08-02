@@ -37,29 +37,6 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 - Nerd Fonts
 - Noto Emoji
 
-# フレーバー
-
-このフォントは以下のフレーバーを提供します。
-
-## EAW-CONSOLE
-AmbiguousとNeutralの文字幅を個別に裁定
-
-- 半角にしないとTUIが壊れる文字は半角(罫線・ブロック)
-- 日本語圏で全角として扱われることが多い文字は全角(例※①)
-- NerdFontのプライベート領域を全角
-- 半角で描画することが困難な絵文字を全角
-
-修正ロケール[EAW-CONSOLE](https://github.com/hamano/locale-eaw)の文字幅と一致するフォントです。
-
-## EAW-FULLWIDTH
-- East Asian Width=Ambisious文字をすべて全角にしたフォント
-- Ambisious Widthを全角に統一するしかない、古典的なアプリケーションに適応します。
-- 罫線が全角となるのでTUIが壊れます。
-- EAW=Nerutralな文字が半角となるので潰れる絵文字があります。
-- ギリシャ文字やキリル文字が全角となります。
-
-修正ロケール[EAW-FULLWIDTH](https://github.com/hamano/locale-eaw)の文字幅と一致するフォントです。
-
 ### サンプル
 
 [sample.txt](https://github.com/hamano/font-eaw/raw/refs/heads/main/sample/sample.txt)
@@ -83,6 +60,30 @@ AmbiguousとNeutralの文字幅を個別に裁定
 Fira Code由来のプログレスバーを利用できます。
 
 ![プログレスバー](sample/progress/progress.gif)
+
+## フレーバー
+
+このフォントは以下のフレーバーを提供します。
+
+### EAW-CONSOLE
+AmbiguousとNeutralの文字幅を個別に裁定
+
+- 半角にしないとTUIが壊れる文字は半角(罫線・ブロック)
+- 日本語圏で全角として扱われることが多い文字は全角(例※①)
+- NerdFontのプライベート領域を全角
+- 半角で描画することが困難な絵文字を全角
+
+修正ロケール[EAW-CONSOLE](https://github.com/hamano/locale-eaw)の文字幅と一致するフォントです。
+
+### EAW-FULLWIDTH
+
+- East Asian Width=Ambisious文字をすべて全角にしたフォント
+- Ambisious Widthを全角に統一するしかない、古典的なアプリケーションに適応します。
+- 罫線が全角となるのでTUIが壊れます。
+- EAW=Nerutralな文字が半角となるので潰れる絵文字があります。
+- ギリシャ文字やキリル文字が全角となります。
+
+修正ロケール[EAW-FULLWIDTH](https://github.com/hamano/locale-eaw)の文字幅と一致するフォントです。
 
 # ライセンス
 
