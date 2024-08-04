@@ -3,6 +3,7 @@ on:
   push:
     tags:
       - '*'
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -24,4 +25,13 @@ jobs:
       - name: upload
         uses: actions/upload-artifact@v4
         with:
+          name: font-eaw
           path: build/EAW-*.ttc
+      - name: release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: true
