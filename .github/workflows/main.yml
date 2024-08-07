@@ -28,10 +28,9 @@ jobs:
           name: font-eaw
           path: build/EAW-*.ttc
       - name: release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
           draft: true
+          files: |
+            build/EAW-CONSOLE.ttc
