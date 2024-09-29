@@ -3,6 +3,8 @@
 
 TEMP_DIR=$(mktemp -d)
 
+loading_ascii="|/-\\"
+
 function progress_ascii(){
   ratio=$(printf '%03d' $(($1 * 100 / 20)))
   remain=$((20 - $1))
@@ -14,9 +16,14 @@ function progress_ascii(){
   for i in $(seq $remain); do
     echo -ne ' '
   done
-  echo -ne ']'
+  echo -n ']'
+  echo -n ' '
+  i=$(( $n % 4 ))
+  echo -n ${loading_ascii:${i}:1}
   echo
 }
+
+loading_new=""
 
 function progress_new(){
   remain=$((20 - $1))
@@ -37,6 +44,9 @@ function progress_new(){
   else
     echo -n ''
   fi
+  echo -n ' '
+  i=$(( $n % 6 ))
+  echo -n ${loading_new:${i}:1}
   echo
 }
 
