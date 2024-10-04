@@ -566,6 +566,11 @@ def ttf(flavor, style, font_list, task):
         merge_font(font, f)
     font.generate(task.targets[0]) 
     font.close()
+    # postテーブルを編集
+    font = TTFont(task.targets[0])
+    font['post'].isFixedPitch = 1
+    font.save(task.targets[0])
+    font.close()
 
 
 def task_ttf():
