@@ -1,3 +1,4 @@
+import sys
 import math
 import json
 import util
@@ -10,6 +11,10 @@ from fontTools.ttLib import TTFont
 from fontTools.subset import Subsetter, Options
 from fontTools.varLib import instancer
 from fontTools.merge import Merger
+import tomllib
+
+with open("pyproject.toml", "rb") as f:
+    pyproject = tomllib.load(f)
 
 def expand_list(range_list):
     ret = []
@@ -556,7 +561,7 @@ def ttf(flavor, style, font_list, task):
     font.familyname = f"EAW {flavor}"
     font.fontname = f"EAW{flavor}-{style}"
     font.fullname = f"EAW {flavor} {style}"
-    font.version = "0.0.1"
+    font.version = pyproject['tool']['poetry']['version']
     font.encoding = "UnicodeFull"
     font.copyright = open('COPYING').read().format(font.familyname)
     font.em = 2048
