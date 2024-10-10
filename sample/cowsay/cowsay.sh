@@ -1,11 +1,11 @@
 #!/bin/bash
 #
 
-TEMP_DIR=$(mktemp -d)
+TEMP_DIR=$(mktemp -d tmp.XXXXXX)
 
 function cowsay_file(){
   filename=$1
-  cat $filename | cowsay -n > ${TEMP_DIR}/${filename}
+  cowsay -n < $filename > ${TEMP_DIR}/${filename}
   offset=$((14 - $(wc -l < ${TEMP_DIR}/${filename})))
   clear
   for i in $(seq $offset); do
@@ -17,6 +17,7 @@ function cowsay_file(){
   import \
     -window $(xdotool getactivewindow) \
     -crop 800x480+0+0 \
+    -colors 8 \
     "${TEMP_DIR}/$1.gif"
 }
 
@@ -27,6 +28,6 @@ for f in *.txt; do
   cowsay_file $f
 done
 
-convert -loop 0 -delay 300 +repage ${TEMP_DIR}/*.gif cowsay.gif
+convert -loop 0 -delay 400 +repage ${TEMP_DIR}/*.gif cowsay.gif
 
 rm -rf ${TEMP_DIR}
