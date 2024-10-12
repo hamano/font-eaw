@@ -26,6 +26,6 @@ for line in lines:
     draw.text((x, y), line, font=font, fill=COLOR_BLACK)
     y += font_size
 
+image = image.quantize(8)
 image.save("sample/sample.png")
-
 image.show()
