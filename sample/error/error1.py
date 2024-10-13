@@ -19,6 +19,6 @@ draw.text((font_size / 2, 0), '※', font=font, fill=COLOR_BLACK)
 draw.text((font_size * 2, 0), '', font=font, fill=COLOR_BLACK)
 draw.text((font_size * 2 + font_size / 2, 0), '', font=font, fill=COLOR_BLACK)
 
+image = image.quantize(8)
 image.save("sample/error/error1.png")
-
 image.show()

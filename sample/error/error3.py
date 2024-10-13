@@ -19,6 +19,6 @@ draw.rectangle([(font_size / 2, 0), (font_size, font_size)], fill=COLOR_WHITE)
 draw.text((font_size * 1, 0), '', font=font, fill=COLOR_BLACK)
 draw.rectangle([(font_size * 1 + font_size / 2, 0), (font_size * 2, font_size)], fill=COLOR_WHITE)
 
+image = image.quantize(8)
 image.save("sample/error/error3.png")
-
 image.show()
