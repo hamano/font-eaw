@@ -3,6 +3,7 @@ import sys
 import click
 import fontforge
 from fontTools.ttLib import TTFont
+from PIL import Image, ImageDraw, ImageFont
 
 @click.group()
 def cli():
@@ -48,9 +49,10 @@ def list_wwid(filename):
             c = ''
         print(f'U+{code:04X} {c} {n_name} -> {w_name}')
 
-def list_cmap():
-    path = sys.argv[1]
-    font = TTFont(path)
+@cli.command()
+@click.argument('filename')
+def list_cmap(filename):
+    font = TTFont(filename)
     print('best', font.getBestCmap())
     for table in font['cmap'].tables:
         if not table.isUnicode():
@@ -73,6 +75,22 @@ def list_fwid(filename):
     for name in mapping.keys():
         new_name = mapping[name]
         print(name, hmtx[name], new_name, hmtx[new_name])
+
+@cli.command()
+@click.option('--font', '-f', default='build/EAW-CONSOLE-Regular.ttf')
+@click.argument('text')
+def draw(font, text):
+    font_size = 64
+    width, height = font_size * 2, font_size
+    COLOR_WHITE=(0xFF, 0xFF, 0xFF)
+    COLOR_BLACK=(0, 0, 0)
+    image = Image.new('RGB', (width, height), color=COLOR_WHITE)
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype(font, font_size)
+    ret = draw.text((0, 0), text, font=font, fill=COLOR_BLACK)
+    image = image.quantize(8)
+    image.save("draw.png")
+    image.show()
 
 def main():
     cli()
