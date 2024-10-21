@@ -279,6 +279,7 @@ def bizud_subset(flavor, style, task):
 
     options = Options()
     subsetter = Subsetter(options=options)
+    subsetter.glyph_names = task_nerdfont_subset
     unicodes = set(font.getBestCmap().keys())
 
     # latin文字を削除
@@ -287,7 +288,8 @@ def bizud_subset(flavor, style, task):
     # 音符を削除(一貫性のため)
     for code in range(0x2669, 0x266F + 1):
         unicodes.discard(code)
-
+    # ℡(U+2121)の変更
+    font['glyf']['uni2121'] = font['glyf']['glyph13056']
     subsetter.populate(unicodes=unicodes)
     subsetter.subset(font)
 
