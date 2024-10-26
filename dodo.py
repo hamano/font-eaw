@@ -578,6 +578,11 @@ def ttf(flavor, style, font_list, task):
     # postテーブルを編集
     font = TTFont(task.targets[0])
     font['post'].isFixedPitch = 1
+    # OS/2テーブルを編集
+    font['OS/2'].usWinAscent = 1802
+    font['OS/2'].usWinDescent = 246
+    font['OS/2'].sTypoLineGap = 0
+    font['OS/2'].panose.bProportion = 9
     font.save(task.targets[0])
     font.close()
 
