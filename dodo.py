@@ -583,6 +583,10 @@ def ttf(flavor, style, font_list, task):
     font['OS/2'].usWinDescent = 246
     font['OS/2'].sTypoLineGap = 0
     font['OS/2'].panose.bProportion = 9
+    # hheaテーブルを編集
+    font['hhea'].ascent = 1802
+    font['hhea'].descent = -246
+    font['hhea'].lineGap = 0
     font.save(task.targets[0])
     font.close()
 
