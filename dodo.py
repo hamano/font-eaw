@@ -86,6 +86,7 @@ def iosevka_subset(flavor, style, task):
     update_cmap(font, ord('7'), 'seven.cv07-2')
     update_cmap(font, ord('l'), 'l.cv47-4')
     update_cmap(font, ord('Z'), 'Z.cv35-2')
+    update_cmap(font, ord('z'), 'z.cv35-2')
 
     # ワイド幅を持つグリフのマッピング
     wwid_mapping = get_wwid_mapping(font)
