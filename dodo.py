@@ -325,13 +325,15 @@ def bizud_fixup(flavor, style, task):
     font_file = list(task.file_dep)[0]
     font = fontforge.open(font_file)
 
-    # dereference
     for glyph in font.glyphs():
+        # dereference
         glyph.unlinkRef()
-
-    for glyph in font.glyphs():
         # add "nf-" prefix
         glyph.glyphname = f"ja-{glyph.glyphname}"
+        # USフォントと調和させるため、ascentは1802から1648に変更される。
+        # BBの高い漢字がascentに収まらければならない
+        # TODO: 検証スクリプトを作る
+        glyph.transform(psMat.translate(0, -100))
 
     # 半角に縮小
     if flavor == 'FULLWIDTH':
@@ -569,8 +571,8 @@ def ttf(flavor, style, font_list, task):
     font.encoding = "UnicodeFull"
     font.copyright = open('COPYING').read().format(font.familyname)
     font.em = 2048
-    font.ascent = 1802
-    font.descent = 246
+    font.ascent = 1648
+    font.descent = 400
     font.weight = style
     for f in font_list:
         merge_font(font, f)
@@ -580,13 +582,13 @@ def ttf(flavor, style, font_list, task):
     font = TTFont(task.targets[0])
     font['post'].isFixedPitch = 1
     # OS/2テーブルを編集
-    font['OS/2'].usWinAscent = 1802
-    font['OS/2'].usWinDescent = 246
+    font['OS/2'].usWinAscent = 1648
+    font['OS/2'].usWinDescent = 400
     font['OS/2'].sTypoLineGap = 0
     font['OS/2'].panose.bProportion = 9
     # hheaテーブルを編集
-    font['hhea'].ascent = 1802
-    font['hhea'].descent = -246
+    font['hhea'].ascent = 1648
+    font['hhea'].descent = -400
     font['hhea'].lineGap = 0
     font.save(task.targets[0])
     font.close()
