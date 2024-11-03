@@ -332,6 +332,7 @@ def bizud_fixup(flavor, style, task):
         glyph.glyphname = f"ja-{glyph.glyphname}"
         # USフォントと調和させるため、ascentは1802から1648に変更される。
         # BBの高い漢字がascentに収まらければならない
+        # 轟などの大きい漢字が収まっていればOK
         # TODO: 検証スクリプトを作る
         glyph.transform(psMat.translate(0, -100))
 
@@ -585,7 +586,8 @@ def ttf(flavor, style, font_list, task):
     font['OS/2'].usWinAscent = 1648
     font['OS/2'].usWinDescent = 400
     font['OS/2'].sTypoLineGap = 0
-    font['OS/2'].panose.bProportion = 9
+    font['OS/2'].xAvgCharWidth = 1024
+    font['OS/2'].panose.bProportion = 3
     # hheaテーブルを編集
     font['hhea'].ascent = 1648
     font['hhea'].descent = -400
