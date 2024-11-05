@@ -13,6 +13,12 @@ from fontTools.varLib import instancer
 from fontTools.merge import Merger
 import tomllib
 
+
+DOIT_CONFIG = {
+    'verbosity': 2,
+    'clean': True,
+}
+
 with open("pyproject.toml", "rb") as f:
     pyproject = tomllib.load(f)
 
@@ -166,7 +172,6 @@ def task_iosevka_subset():
                 'file_dep': [f'src/iosevka/{font_file}'],
                 'targets': [f'build/IO-{flavor}-{style}-subset.ttf'],
                 'clean': True,
-                'verbosity': 2,
             }
 
 
@@ -268,7 +273,6 @@ def task_iosevka_fixup():
                 'file_dep': [f'build/IO-{flavor}-{style}-subset.ttf'],
                 'targets': [f'build/IO-{flavor}-{style}.ttf'],
                 'clean': True,
-                'verbosity': 2,
             }
 
 
@@ -317,7 +321,6 @@ def task_bizud_subset():
                 'file_dep': [filename],
                 'targets': [f'build/JA-{flavor}-{style}-subset.ttf'],
                 'clean': True,
-                'verbosity': 2,
             }
 
 
@@ -373,7 +376,6 @@ def task_bizud_fixup():
                 'file_dep': [font_file],
                 'targets': [f'build/JA-{flavor}-{style}.ttf'],
                 'clean': True,
-                'verbosity': 2,
             }
 
 
@@ -398,7 +400,6 @@ def task_nerdfont_subset():
         'file_dep': ['src/nerdfont/SymbolsNerdFontMono-Regular.ttf'],
         'targets': ['build/NF-subset.ttf'],
         'clean': True,
-        'verbosity': 2,
     }
 
 
@@ -419,7 +420,6 @@ def task_nerdfont_fixup():
         'file_dep': ['build/NF-subset.ttf'],
         'targets': ['build/NF.ttf'],
         'clean': True,
-        'verbosity': 2,
     }
 
 
@@ -459,7 +459,6 @@ def task_notoemoji_subset():
             'file_dep': ['src/notoemoji/NotoEmoji%5Bwght%5D.ttf'],
             'targets': [f'build/NE-{style}-subset.ttf'],
             'clean': True,
-            'verbosity': 2,
         }
 
 
@@ -523,7 +522,6 @@ def task_notoemoji_fixup():
                 'file_dep': [f'build/NE-{style}-subset.ttf'],
                 'targets': [f'build/NE-{flavor}-{style}.ttf'],
                 'clean': True,
-                'verbosity': 2,
             }
 
 
@@ -618,7 +616,6 @@ def task_ttf():
                 'file_dep': font_list,
                 'targets': [f'build/EAW-{flavor}-{style}.ttf'],
                 'clean': True,
-                'verbosity': 2,
             }
 
 
@@ -643,7 +640,6 @@ def task_stats():
                 'file_dep': font_list,
                 'targets': [f'stats/EAW-{flavor}-{style}.txt'],
                 'clean': True,
-                'verbosity': 2,
             }
 
 
@@ -666,7 +662,6 @@ def task_ttc():
             'file_dep': font_list,
             'targets': [f'build/EAW-{flavor}.ttc'],
             'clean': True,
-            'verbosity': 2,
         }
 
 
