@@ -637,7 +637,6 @@ def task_stats():
                 'actions': [(stats, [])],
                 'file_dep': font_list,
                 'targets': [f'stats/EAW-{flavor}-{style}.txt'],
-                'clean': False,
             }
 
 

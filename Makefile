@@ -1,7 +1,6 @@
 .PHONY: build
 
 all:
-	mkdir -p build
 	poetry run doit run all
 
 test:
