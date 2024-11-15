@@ -477,16 +477,6 @@ def notoemoji_fixup(flavor, task):
             matrix = [scale, 0, 0, scale, 0, 0]
             glyph.transform(matrix)
 
-    if flavor == 'CONSOLE':
-        half_list = expand_list([
-            'U+2744', # ❄ Neutralなので半角に
-            'U+2747', # ❇ Neutralなので半角に
-            'U+2763', # ❣ Neutralなので半角に
-        ])
-        for code in half_list:
-            glyph = font[code]
-            glyph.transform(psMat.scale(0.5, 1))
-
     if flavor == 'FULLWIDTH':
         locale = util.load_fullwidth_locale()
         for glyph in font.glyphs():
