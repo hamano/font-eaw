@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "font-eaw"
-version = "0.5"
+version = "0.6"
 description = ""
 authors = ["HAMANO Tsukasa"]
 readme = "README.md"
