@@ -200,7 +200,8 @@ def iosevka_fixup(flavor, style, task):
         'U+2630..U+2637', # TRIGRAM Unicode 16でWide
         'U+268A..U+268F', # MONOGRAM Unicode 16でWide
         'U+4DC0..U+4DFF', # HEXAGRAM Unicode 16でWide
-        'U+1D300..U+1D356', # MONOGRAM Unicode 16でWide
+        'U+1D300..U+1D356', # MONOGRAM EAW=W
+        'U+1D360..U+1D376', # COUNTING ROD UNIT EAW=W
     ])
     if flavor == 'FULLWIDTH':
         # TODO: jaフォントを使ったほうが良いものもある
