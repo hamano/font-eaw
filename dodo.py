@@ -630,10 +630,14 @@ def task_stats():
             }
 
 
-def ttc(flavor, font_list, task):
+def ttc_with_ff(flavor, font_list, task):
     fonts = [fontforge.open(font_file) for font_file in font_list]
     fonts[0].generateTtc(task.targets[0], fonts[1:], layer=1)
 
+def ttc(flavor, font_list, task):
+    ttc = TTCollection()
+    ttc.fonts = [TTFont(font_file) for font_file in font_list]
+    ttc.save(task.targets[0])
 
 def task_ttc():
     """TTC生成"""
