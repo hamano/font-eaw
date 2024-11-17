@@ -53,12 +53,19 @@ def list_wwid(filename):
 @click.argument('filename')
 def list_cmap(filename):
     font = TTFont(filename)
-    print('best', font.getBestCmap())
+    #print('best', font.getBestCmap())
     for table in font['cmap'].tables:
         if not table.isUnicode():
             continue
-        print(table)
         print(table.platformID, table.platEncID, table.language)
+
+@cli.command()
+@click.argument('filename')
+def list_best_cmap(filename):
+    font = TTFont(filename)
+    cmap = font.getBestCmap()
+    for code, name in cmap.items():
+        print(f'{code:X} {name}')
 
 @cli.command()
 @click.argument('filename')
