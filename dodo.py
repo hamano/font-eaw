@@ -1,4 +1,3 @@
-import sys
 import math
 import json
 import util
@@ -66,6 +65,12 @@ def update_cmap(font, code, name):
         if code in table.cmap:
             table.cmap[code] = name
 
+def add_cmap(font, code, name):
+    cmap = font.getBestCmap()
+    if code in cmap:
+        print(f'U+{code:04X} aleady exists in cmap')
+    cmap[code] = name
+
 def towide(font, mapping, code):
     cmap = font.getBestCmap()
     if code not in cmap:
@@ -91,6 +96,8 @@ def iosevka_subset(flavor, style, task):
     update_cmap(font, ord('l'), 'l.cv47-4')
     update_cmap(font, ord('Z'), 'Z.cv35-2')
     update_cmap(font, ord('z'), 'uni1D22.cv35-2')
+    # U+23AF HORIZONTAL LINE EXTENSIONが無いので罫線(U+2500)で代用
+    add_cmap(font, 0x23AF, 'uni2500.NWID')
 
     # ワイド幅を持つグリフのマッピング
     wwid_mapping = get_wwid_mapping(font)
