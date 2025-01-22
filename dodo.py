@@ -65,10 +65,15 @@ def update_cmap(font, code, name):
         if code in table.cmap:
             table.cmap[code] = name
 
+def copy_glyph(font, src, dst):
+    font["glyf"][dst] = font["glyf"][src]
+    font["hmtx"][dst] = font["hmtx"][src]
+
 def add_cmap(font, code, name):
     cmap = font.getBestCmap()
     if code in cmap:
         print(f'U+{code:04X} aleady exists in cmap')
+        return
     cmap[code] = name
 
 def towide(font, mapping, code):
@@ -97,7 +102,8 @@ def iosevka_subset(flavor, style, task):
     update_cmap(font, ord('Z'), 'Z.cv35-2')
     update_cmap(font, ord('z'), 'uni1D22.cv35-2')
     # U+23AF HORIZONTAL LINE EXTENSIONが無いので罫線(U+2500)で代用
-    add_cmap(font, 0x23AF, 'uni2500.NWID')
+    copy_glyph(font, 'uni2500.NWID', 'uni23AF.copy')
+    add_cmap(font, 0x23AF, 'uni23AF.copy')
 
     # ワイド幅を持つグリフのマッピング
     wwid_mapping = get_wwid_mapping(font)
@@ -235,7 +241,9 @@ def iosevka_fixup(flavor, style, task):
     # 半角に縮小
     if flavor == 'FULLWIDTH':
         half_list = expand_list([
-            'U+27F5..U+27FF', 'U+2B33', # ⟵〜⟿Neutralなので半角に
+            'U+27F5..U+27FF', # ⟵..⟿ Neutralなので半角に
+            'U+27DD..U+27DE', # Neutralなので半角に
+            'U+2B33', # Neutralなので半角に
         ])
         for code in half_list:
             glyph = font[code]
