@@ -131,6 +131,7 @@ def iosevka_subset(flavor, style, task):
 
     # 削除するグリフ
     remove_list = expand_list([
+        'U+055F', # ARMENIAN ABBREVIATION MARK: 使わないし、zero widthなので削除
         'U+2028..U+2029', # LINE SEPARATOR,PARAGRAPH SEPARATOR
         'U+203B', # ※ JPフォントを利用
         'U+2121', # ℡ JPフォントを利用
