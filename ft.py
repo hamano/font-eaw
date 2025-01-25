@@ -24,17 +24,14 @@ def list_glyph(filename):
         print(f'{g.glyphname} {g.originalgid} U+{g.unicode:04X} {g.width} {c}')
 
 
-@cli.command()
-@click.argument('filename')
-def list_wwid(filename):
-    font = TTFont(filename)
+def list_gsub(font, tag):
     gsub = font['GSUB'].table
     index = None
     for feature in gsub.FeatureList.FeatureRecord:
-        if feature.FeatureTag == 'WWID':
+        if feature.FeatureTag == tag:
             index = feature.Feature.LookupListIndex[0]
     if index == None:
-        print('WWID LookupIndex notfound')
+        print(f'{tag} LookupIndex notfound')
         return None
     lookup_wwid = gsub.LookupList.Lookup[index]
     mapping = lookup_wwid.SubTable[0].ExtSubTable.mapping
@@ -48,6 +45,18 @@ def list_wwid(filename):
         except:
             c = ''
         print(f'U+{code:04X} {c} {n_name} -> {w_name}')
+
+@cli.command()
+@click.argument('filename')
+def list_wwid(filename):
+    font = TTFont(filename)
+    list_gsub(font, 'WWID')
+
+@cli.command()
+@click.argument('filename')
+def list_nwid(filename):
+    font = TTFont(filename)
+    list_gsub(font, 'NWID')
 
 @cli.command()
 @click.argument('filename')
