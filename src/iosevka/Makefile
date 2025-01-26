@@ -1,7 +1,7 @@
 .PHONY: update
 
-URL:=https://github.com/be5invis/Iosevka/releases/download/v31.6.1/
-SRC:=PkgTTF-IosevkaTermCurly-31.6.1.zip PkgTTF-IosevkaTermCurlySlab-31.6.1.zip
+URL:=https://github.com/be5invis/Iosevka/releases/download/v32.4.0/
+SRC:=PkgTTF-IosevkaTermCurly-32.4.0.zip PkgTTF-IosevkaTermCurlySlab-32.4.0.zip
 
 update:
 	@for f in $(SRC); do \
