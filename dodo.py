@@ -573,7 +573,7 @@ def ttf(flavor, style, font_list, task):
     font.fullname = f"EAW {flavor} {style}"
     font.version = pyproject['project']['version']
     font.encoding = "UnicodeFull"
-    font.copyright = open('COPYING').read().format(font.familyname)
+    font.copyright = open('COPYING').read()
     font.em = 2048
     font.ascent = 1648
     font.descent = 400
