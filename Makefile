@@ -1,10 +1,12 @@
 .PHONY: build
 
 all:
-	poetry run doit run all
+	PYTHONPATH=/usr/lib/python3/dist-packages \
+	uv run doit run all
 
 test:
-	poetry run pytest -sv
+	PYTHONPATH=/usr/lib/python3/dist-packages \
+	uv run pytest -sv
 
 install:
 	install build/EAW-CONSOLE.ttc ~/.fonts/truetype/eaw/
