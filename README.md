@@ -5,19 +5,20 @@
 
 East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問題です。
 これを解決するための[修正ロケール](https://github.com/hamano/locale-eaw)を公開していますが
-フォントに依存して不自然な表示となるのでフォントも調整する必要がありました。
+フォントにより不自然な表示となるのでフォントも調整が必要でした。
 
-[locale-eaw](https://github.com/hamano/locale-eaw)との組み合わせにより、glibcロケール、シェル、ターミナル、テキストエディタ、フォントの文字幅を全て一致させることで快適で壊れないなターミナル環境を実現します。
+[locale-eaw](https://github.com/hamano/locale-eaw)との組み合わせにより、glibcロケール、シェル、ターミナル、テキストエディタ、フォントの文字幅を全て一致させることで快適で壊れないターミナル環境を実現します。
 
 ![cowsay](sample/cowsay/cowsay.gif)
 
 # フォントにまつわるEAW問題
-## 重なる
-![error1](sample/error/error1.png)
-## 縮む
-![error2](sample/error/error2.png)
-## 切れる
-![error3](sample/error/error3.png)
+
+|   |   |
+|---|---|
+| 重なる | ![error1](sample/error/error1.png) |
+| 縮む   | ![error2](sample/error/error2.png) |
+| 切れる | ![error3](sample/error/error3.png) |
+
 
 [修正ロケール](https://github.com/hamano/locale-eaw)とこのフォントの組み合わせによって上記の問題を解決します。
 
@@ -26,7 +27,7 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 - 視認性の高いプログラミング、ターミナル作業向けフォント
 - Regular, Bold, Italic, BoldItalicの4書体
 - 見える全角スペース
-- 絵文字、NerdFontを幅広くサポート
+- 絵文字、NerdFontを幅広く収録
 - East Asian Width問題により、文字が潰れない、重ならない
 
 このフォントは現状下記フォントを合成していますが、
