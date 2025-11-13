@@ -647,11 +647,7 @@ def task_stats():
             }
 
 
-def ttc_with_ff(flavor, font_list, task):
-    fonts = [fontforge.open(font_file) for font_file in font_list]
-    fonts[0].generateTtc(task.targets[0], fonts[1:], layer=1)
-
-def ttc(flavor, font_list, task):
+def build_ttc(flavor, font_list, task):
     ttc = TTCollection()
     ttc.fonts = [TTFont(font_file) for font_file in font_list]
     ttc.save(task.targets[0])
@@ -666,7 +662,7 @@ def task_ttc():
             font_list.append(f'build/EAW-{flavor}-{style}.ttf')
         yield {
             'name': f'{flavor}',
-            'actions': [(ttc, [flavor, font_list])],
+            'actions': [(build_ttc, [flavor, font_list])],
             'file_dep': font_list,
             'targets': [f'build/EAW-{flavor}.ttc'],
             'clean': True,
