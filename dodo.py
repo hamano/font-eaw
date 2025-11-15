@@ -1,15 +1,15 @@
 import math
 import json
 import util
-from functools import cache
-from pprint import pprint
+import sys
+#from pprint import pprint
 import fontforge
 import psMat
 from fontTools.ttLib import TTCollection
 from fontTools.ttLib import TTFont
 from fontTools.subset import Subsetter, Options
 from fontTools.varLib import instancer
-from fontTools.merge import Merger
+#from fontTools.merge import Merger
 import tomllib
 
 DOIT_CONFIG = {
@@ -22,7 +22,7 @@ with open("pyproject.toml", "rb") as f:
 def expand_list(range_list):
     ret = []
     for code_range in range_list:
-        token = code_range.split('..')                                                        
+        token = code_range.split('..')
         if len(token) == 1:
             start = int(token[0].removeprefix('U+'), 16)
             ret.append(start)
@@ -38,7 +38,7 @@ def get_wwid_mapping(font):
     for feature in gsub.FeatureList.FeatureRecord:
         if feature.FeatureTag == 'WWID':
             index = feature.Feature.LookupListIndex[0]
-    if index == None:
+    if index is None:
         print('WWID LookupIndex notfound')
         return None
     lookup_wwid = gsub.LookupList.Lookup[index]
@@ -51,7 +51,7 @@ def get_nwid_mapping(font):
     for feature in gsub.FeatureList.FeatureRecord:
         if feature.FeatureTag == 'NWID':
             index = feature.Feature.LookupListIndex[0]
-    if index == None:
+    if index is None:
         print('NWID LookupIndex notfound')
         return None
     lookup_wwid = gsub.LookupList.Lookup[index]
@@ -322,10 +322,10 @@ def task_bizud_subset():
     flavors = ['CONSOLE', 'FULLWIDTH']
     styles = ['Regular', 'Bold', 'Italic', 'BoldItalic']
     filenames = {
-        'Regular': f'src/bizudgothic/BIZUDGothic-Regular.ttf',
-        'Bold': f'src/bizudgothic/BIZUDGothic-Bold.ttf',
-        'Italic': f'src/bizudmincho/BIZUDMincho-Regular.ttf',
-        'BoldItalic': f'src/bizudmincho/BIZUDMincho-Bold.ttf',
+        'Regular': 'src/bizudgothic/BIZUDGothic-Regular.ttf',
+        'Bold': 'src/bizudgothic/BIZUDGothic-Bold.ttf',
+        'Italic': 'src/bizudmincho/BIZUDMincho-Regular.ttf',
+        'BoldItalic': 'src/bizudmincho/BIZUDMincho-Bold.ttf',
     }
     for flavor in flavors:
         for style in styles:
@@ -532,7 +532,7 @@ def task_notoemoji_fixup():
 
 def merge_font(target, path, unicodes=None, overwrite=False):
     source = fontforge.open(path)
-    if unicodes == None:
+    if unicodes is None:
         unicodes = []
         for glyph in source.glyphs():
             if glyph.unicode == -1:
