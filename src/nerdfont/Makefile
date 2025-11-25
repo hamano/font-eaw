@@ -1,6 +1,6 @@
 .PHONY: update
 
-URL:=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0
+URL:=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0
 SRC:=NerdFontsSymbolsOnly.zip
 
 update:
