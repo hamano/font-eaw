@@ -16,6 +16,9 @@ DOIT_CONFIG = {
     'verbosity': 2,
 }
 
+ASCENT = 1748
+DESCENT = 300
+
 with open("pyproject.toml", "rb") as f:
     pyproject = tomllib.load(f)
 
@@ -198,16 +201,19 @@ def iosevka_fixup(flavor, style, task):
     for glyph in font.glyphs():
         # add "io-" prefix
         glyph.glyphname = f"io-{glyph.glyphname}"
+        # iosevkaのグリフ幅が500/1000に対してBIZUDが1024/2048なので
+        # 2.048倍の拡大が必要
         if glyph.width == 500:
-            resize_width = 1024
-            scale = resize_width / glyph.width
-            matrix = psMat.scale(scale, scale)
+            #resize_width = 1024
+            #scale = resize_width / glyph.width
+            matrix = psMat.scale(2.048)
             glyph.transform(matrix)
         elif glyph.width == 1000:
-            resize_width = 2048
-            scale = resize_width / glyph.width
-            matrix = psMat.scale(scale, scale)
+            matrix = psMat.scale(2.048)
             glyph.transform(matrix)
+        # グリフのベースラインを下げる
+        #glyph.transform(psMat.translate(0, -20))
+
 
     # 半角を全角に引き伸ばし
     wide_list = expand_list([
@@ -270,8 +276,8 @@ def iosevka_fixup(flavor, style, task):
         glyph.right_side_bearing = int(2048 - bbwidth - glyph.left_side_bearing)
         glyph.width = 2048
 
-    font.ascent = 1802
-    font.descent = 246
+    font.ascent = ASCENT
+    font.descent = DESCENT
     font.generate(task.targets[0])
     font.close()
 
@@ -348,11 +354,11 @@ def bizud_fixup(flavor, style, task):
         glyph.unlinkRef()
         # add "nf-" prefix
         glyph.glyphname = f"ja-{glyph.glyphname}"
-        # USフォントと調和させるため、ascentは1802から1648に変更される。
-        # BBの高い漢字がascentに収まらければならない
+        # USフォントと調和させるため、ascentは1802から1748に変更される。
+        # BBの高い漢字がascentに収まっていなければならない
         # 轟などの大きい漢字が収まっていればOK
         # TODO: 検証スクリプトを作る
-        glyph.transform(psMat.translate(0, -100))
+        # glyph.transform(psMat.translate(0, -100))
 
     # 半角に縮小
     if flavor == 'FULLWIDTH':
@@ -372,8 +378,8 @@ def bizud_fixup(flavor, style, task):
            matrix = psMat.skew(math.radians(angle))
            glyph.transform(matrix)
 
-    #font.ascent = 1802
-    #font.descent = 246
+    font.ascent = ASCENT
+    font.descent = DESCENT
     font.save(task.targets[0])
     font.close()
 
@@ -575,8 +581,10 @@ def ttf(flavor, style, font_list, task):
     font.encoding = "UnicodeFull"
     font.copyright = open('COPYING').read()
     font.em = 2048
-    font.ascent = 1648
-    font.descent = 400
+    #font.ascent = 1648
+    #font.descent = 400
+    font.ascent = ASCENT
+    font.descent = DESCENT
     font.weight = style
     for f in font_list:
         merge_font(font, f)
@@ -586,15 +594,28 @@ def ttf(flavor, style, font_list, task):
     font = TTFont(task.targets[0])
     font['post'].isFixedPitch = 1
     # OS/2テーブルを編集
-    font['OS/2'].usWinAscent = 1648
-    font['OS/2'].usWinDescent = 400
+    font['OS/2'].usWinAscent = ASCENT
+    font['OS/2'].usWinDescent = DESCENT
     font['OS/2'].sTypoLineGap = 0
     font['OS/2'].xAvgCharWidth = 1024
     font['OS/2'].panose.bProportion = 3
     # hheaテーブルを編集
-    font['hhea'].ascent = 1648
-    font['hhea'].descent = -400
+    font['hhea'].ascent = ASCENT
+    font['hhea'].descent = -DESCENT
     font['hhea'].lineGap = 0
+    # スタイルの設定
+    if style == 'Regular':
+        font['OS/2'].usWeightClass = 400
+    elif style == 'Bold':
+        font['OS/2'].usWeightClass = 700
+        font['head'].macStyle |= 1 << 0  # Bold
+    elif style == 'Italic':
+        font['OS/2'].usWeightClass = 400
+        font['head'].macStyle |= 1 << 1  # Italic
+    elif style == 'BoldItalic':
+        font['OS/2'].usWeightClass = 700
+        font['head'].macStyle |= 1 << 0  # Bold
+        font['head'].macStyle |= 1 << 1  # Italic
     font.save(task.targets[0])
     font.close()
 
