@@ -45,7 +45,10 @@ def get_wwid_mapping(font):
         print('WWID LookupIndex notfound')
         return None
     lookup_wwid = gsub.LookupList.Lookup[index]
-    mapping = lookup_wwid.SubTable[0].ExtSubTable.mapping
+    #mapping = lookup_wwid.SubTable[0].ExtSubTable.mapping
+    mapping = {}
+    for t in lookup_wwid.SubTable:
+        mapping.update(t.ExtSubTable.mapping)
     return mapping
 
 def get_nwid_mapping(font):
@@ -57,8 +60,11 @@ def get_nwid_mapping(font):
     if index is None:
         print('NWID LookupIndex notfound')
         return None
-    lookup_wwid = gsub.LookupList.Lookup[index]
-    mapping = lookup_wwid.SubTable[0].ExtSubTable.mapping
+    lookup_nwid = gsub.LookupList.Lookup[index]
+    #mapping = lookup_wwid.SubTable[0].ExtSubTable.mapping
+    mapping = {}
+    for t in lookup_nwid.SubTable:
+        mapping.update(t.ExtSubTable.mapping)
     return mapping
 
 def update_cmap(font, code, name):
