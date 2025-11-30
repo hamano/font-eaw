@@ -6,7 +6,7 @@ TEMP_DIR=$(mktemp -d tmp.XXXXXX)
 function cowsay_file(){
   filename=$1
   cowsay -n < $filename > ${TEMP_DIR}/${filename}
-  offset=$((14 - $(wc -l < ${TEMP_DIR}/${filename})))
+  offset=$((15 - $(wc -l < ${TEMP_DIR}/${filename})))
   clear
   for i in $(seq $offset); do
     echo
