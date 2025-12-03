@@ -165,6 +165,13 @@ def iosevka_subset(flavor, style, task):
         with open('./eaw-fullwidth-ja.json', 'r') as f:
             ja_list = json.load(f)
         remove_list.extend(expand_list(ja_list))
+        # https://github.com/fonttools/fonttools/issues/4020
+        # mirrorで参照されたグリフがあるとsubsetterで削除できない場合があるため、
+        # 以下はcmapから削除する必要がある
+        del cmap[0x221F] # U+221F RIGHT ANGLE
+        del cmap[0x2220] # U+2220 ANGLE
+        del cmap[0x223D] # U+223D REVERSED TILDE (JPフォントは全くチルダではない字形のような...)
+        del cmap[0x2252] # U+2252 APPROXIMATELY EQUAL TO OR THE IMAGE OF
     for code in remove_list:
         unicodes.discard(code)
 
