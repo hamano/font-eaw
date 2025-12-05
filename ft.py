@@ -34,10 +34,11 @@ def list_gsub(font, tag):
         print(f'{tag} LookupIndex notfound')
         return None
     lookup_wwid = gsub.LookupList.Lookup[index]
-    mapping = lookup_wwid.SubTable[0].ExtSubTable.mapping
+    mapping = {}
+    for t in lookup_wwid.SubTable:
+        mapping.update(t.ExtSubTable.mapping)
     cmap = font.getBestCmap()
     rmap = {v: k for k, v in cmap.items()}
-    #print(rmap)
     for n_name, w_name in mapping.items():
         code = rmap.get(n_name, -1)
         try:
