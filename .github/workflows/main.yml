@@ -10,29 +10,25 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - name: setup uv
+        uses: astral-sh/setup-uv@v4
       - name: install deps
         run: |
-          sudo apt-get -y install fontforge python3-poetry python3-fontforge
-          poetry update
+          sudo apt-get -y install fontforge python3-fontforge
+          uv sync
       - name: check version
         run: |
-          python3 --version
-          poetry --version
+          uv run python3 --version
           fontforge --version
       - name: build
         run: make
       - name: test
         run: make test
-#      - name: upload
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: font-eaw
-#          path: build/EAW-*.ttc
       - name: release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          draft: true
+          draft: false
           files: |
             build/EAW-CONSOLE.ttc
             build/EAW-FULLWIDTH.ttc
