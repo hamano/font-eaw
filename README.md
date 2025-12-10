@@ -24,7 +24,7 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 
 # 特徴
 
-- 視認性の高いプログラミング、ターミナル作業向けフォント
+- 視認性の高いプログラミング、ターミナル作業用フォント
 - Regular, Bold, Italic, BoldItalicの4書体
 - 見える全角スペース
 - 絵文字、NerdFontを幅広く収録
@@ -34,7 +34,7 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 今後よりよいフォントがあれば入れ替える可能性があります。
 
 - Iosevka Curly
-- BIZ UDGothic
+- BIZ UDGothic / BIZ UDMincho
 - Nerd Fonts
 - Noto Emoji
 
