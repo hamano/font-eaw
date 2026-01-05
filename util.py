@@ -1,6 +1,9 @@
-import fontforge
+import sys
 from functools import cache
 from collections import defaultdict
+# for debian
+sys.path.append('/usr/lib/python3/dist-packages')
+import fontforge
 
 # def load_width_from_json(path):
 #     width_map = {}

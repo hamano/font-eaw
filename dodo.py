@@ -3,7 +3,6 @@ import json
 import util
 import sys
 #from pprint import pprint
-import fontforge
 import psMat
 from fontTools.ttLib import TTCollection
 from fontTools.ttLib import TTFont
@@ -11,6 +10,10 @@ from fontTools.subset import Subsetter, Options
 from fontTools.varLib import instancer
 #from fontTools.merge import Merger
 import tomllib
+
+# for debian
+sys.path.append('/usr/lib/python3/dist-packages')
+import fontforge
 
 DOIT_CONFIG = {
     'verbosity': 2,
