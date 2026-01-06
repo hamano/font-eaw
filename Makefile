@@ -1,11 +1,9 @@
 .PHONY: build
 
 all:
-	PYTHONPATH=/usr/lib/python3/dist-packages \
 	uv run doit run all
 
 test:
-	PYTHONPATH=/usr/lib/python3/dist-packages \
 	uv run pytest -sv
 
 install:
