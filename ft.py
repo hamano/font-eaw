@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 import sys
 import click
-import fontforge
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
+
+# for debian
+sys.path.append('/usr/lib/python3/dist-packages')
+import fontforge
 
 @click.group()
 def cli():
