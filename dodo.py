@@ -156,7 +156,10 @@ def iosevka_subset(flavor, style, task):
         'U+2B55', # ⭕EAW=Wなのに半角なので削除
         'U+E0A0..U+E0D7', # NFカバー範囲
         'U+EF01..U+EF10', # NFカバー範囲
+        'U+F880..U+F89F', # iosevka private glyph
         'U+1F16A..U+1F16C', # 🅪🅫🅬絵文字領域で半角なので削除
+        'U+1F8D0..U+1F8D8', # iosevka private glyph
+        'U+1CEB3', # なんだかよくわからないがたぶんiosevkaのバグ、不要
     ])
     if flavor == 'CONSOLE':
         remove_list.extend(expand_list([
