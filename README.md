@@ -11,7 +11,7 @@ East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問�
 
 ![cowsay](sample/cowsay/cowsay.gif)
 
-# フォントにまつわるEAW問題
+# フォントに関わるEAW問題
 
 |   |   |
 |---|---|
