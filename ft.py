@@ -12,19 +12,20 @@ import fontforge
 def cli():
     pass
 
+# コードポイントが割り当てられたグリフをリスト
 @cli.command()
 @click.argument('filename')
 def list_glyph(filename):
-    path = sys.argv[1]
-    font = fontforge.open(filename)
-    for g in font.glyphs():
-        if g.unicode == 0:
-            continue
+    font = TTFont(filename)
+    cmap = font.getBestCmap()
+    for code, name in cmap.items():
+        glyph = font['glyf'][name]
+        width = font['hmtx'][name][0]
         try:
-            c = chr(g.unicode)
+            c = chr(code)
         except ValueError:
             c = '?'
-        print(f'{g.glyphname} {g.originalgid} U+{g.unicode:04X} {g.width} {c}')
+        print(f'U+{code:X} {name} {width} {c}')
 
 
 def list_gsub(font, tag):
