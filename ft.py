@@ -27,6 +27,22 @@ def list_glyph(filename):
             c = '?'
         print(f'U+{code:X} {name} {width} {c}')
 
+# コードポイントが割り当てられたグリフもリスト
+@cli.command()
+@click.argument('filename')
+def list_glyph_all(filename):
+    font = TTFont(filename)
+    cmap = font.getBestCmap()
+    rmap = {v: k for k, v in cmap.items()}
+    for name in font.getGlyphOrder():
+        code = rmap.get(name, -1)
+        glyph = font['glyf'][name]
+        try:
+            c = chr(code)
+        except ValueError:
+            c = '?'
+        print(f'U+{code:X} {name} {c}')
+    
 
 def list_gsub(font, tag):
     gsub = font['GSUB'].table
