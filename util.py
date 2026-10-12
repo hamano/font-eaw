@@ -1,9 +1,6 @@
-import sys
 from functools import cache
 from collections import defaultdict
-# for debian
-sys.path.append('/usr/lib/python3/dist-packages')
-import fontforge
+from fontTools.ttLib import TTFont
 
 # def load_width_from_json(path):
 #     width_map = {}
@@ -57,20 +54,22 @@ def wcwidth(width_list, code):
 
 def check_width(width_file, font_file):
     width_list = load_locale(width_file)
-    font = fontforge.open(font_file)
+    font = TTFont(font_file, lazy=True)
+    hmtx = font['hmtx']
     error = 0
-    for glyph in font.glyphs():
-        if glyph.unicode < 0x20:
+    for code, name in sorted(font.getBestCmap().items()):
+        if code < 0x20:
             continue
-        width = wcwidth(width_list, glyph.unicode)
-        if width * 1024 != glyph.width:
+        width = wcwidth(width_list, code)
+        advance = hmtx[name][0]
+        if width * 1024 != advance:
             if width == 0:
                 # COMBININGについては無視
                 continue
             print(
-                    f'[{chr(glyph.unicode)}] U+{glyph.unicode:04X} width is wrong.'
+                    f'[{chr(code)}] U+{code:04X} width is wrong.'
                     f' width: {width}'
-                    f' glyph.width: {glyph.width}'
+                    f' glyph.width: {advance}'
                   )
             error += 1
     return error
@@ -79,14 +78,15 @@ def check_width(width_file, font_file):
 def stats_font(font_file):
     stats = defaultdict(int)
     width_stats = defaultdict(int)
-    font = fontforge.open(font_file)
-    for g in font.glyphs():
-        if g.unicode < 0x20:
+    font = TTFont(font_file, lazy=True)
+    hmtx = font['hmtx']
+    for code, name in font.getBestCmap().items():
+        if code < 0x20:
             continue
-        tokens = g.glyphname.split('-')
+        tokens = name.split('-')
         fontname = tokens[0]
         stats[fontname] += 1
-        width_stats[g.width] += 1
+        width_stats[hmtx[name][0]] += 1
     ret = []
     for width in sorted(width_stats.keys()):
         ret.append((width, width_stats[width]))
