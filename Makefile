@@ -14,4 +14,4 @@ lint:
 	uv run ruff check dodo.py
 
 clean:
-	rm -rf build/*
+	rm -rf build/*.ttf build/*.ttc

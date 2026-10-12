@@ -1,11 +1,11 @@
 # East Asian Widthフォント
 
-このフォントはターミナルで上で起こるEast Asian Width問題を緩和し、
+このフォントはターミナル上で起こるEast Asian Width問題を緩和し、
 文字が自然に表示されることをコンセプトとした合成フォントです。
 
 East Asian Width問題はLinuxのターミナル表示が壊れる厄介な問題です。
 これを解決するための[修正ロケール](https://github.com/hamano/locale-eaw)を公開していますが
-フォントにより不自然な表示となるのでフォントも調整が必要でした。
+フォントによっては不自然な表示となるため、フォントの調整も必要でした。
 
 [locale-eaw](https://github.com/hamano/locale-eaw)との組み合わせにより、glibcロケール、シェル、ターミナル、テキストエディタ、フォントの文字幅を全て一致させることで快適で壊れないターミナル環境を実現します。
 
@@ -78,10 +78,10 @@ AmbiguousとNeutralの文字幅を個別に裁定
 
 ### EAW-FULLWIDTH
 
-- East Asian Width=Ambisious文字をすべて全角にしたフォント
-- Ambisious Widthを全角に統一するしかない、古典的なアプリケーションに適応します。
+- East Asian Width=Ambiguous文字をすべて全角にしたフォント
+- Ambiguous Widthを全角に統一するしかない、古典的なアプリケーションに対応します。
 - 罫線が全角となるのでTUIが壊れます。
-- EAW=Nerutralな文字が半角となるので潰れる絵文字があります。
+- EAW=Neutralな文字が半角となるので潰れる絵文字があります。
 - ギリシャ文字やキリル文字が全角になる
 
 修正ロケール[EAW-FULLWIDTH](https://github.com/hamano/locale-eaw)の文字幅と一致するフォントです。
