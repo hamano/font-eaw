@@ -15,3 +15,8 @@ lint:
 
 clean:
 	rm -rf build/*.ttf build/*.ttc
+
+upgrade:
+	uv lock --upgrade
+	uv sync
+	uv audit
