@@ -4,10 +4,6 @@ import click
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
 
-# for debian
-sys.path.append('/usr/lib/python3/dist-packages')
-import fontforge
-
 @click.group()
 def cli():
     pass
@@ -25,9 +21,9 @@ def list_glyph(filename):
             c = chr(code)
         except ValueError:
             c = '?'
-        print(f'U+{code:X} {name} {width} {c}')
+        print(f'U+{code:X} {name} {c} {width}')
 
-# コードポイントが割り当てられたグリフもリスト
+# コードポイントが割り当てられていないグリフもリスト
 @cli.command()
 @click.argument('filename')
 def list_glyph_all(filename):
@@ -128,6 +124,7 @@ def draw(font, text):
     image = image.quantize(8)
     image.save("draw.png")
     image.show()
+
 
 def main():
     cli()
